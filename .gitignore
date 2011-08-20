@@ -1,0 +1,9 @@
+TAGS
+firmware/.dep
+*.lst
+*.o
+*.hex
+*.elf
+*.lst
+*.lss
+
