@@ -11,7 +11,7 @@ SRC = main.c
 # You probably want to change this to your own programming device
 
 # AVR ISP mkII
-PGMDEV = avrispmkII
+PGMDEV = dragon_isp
 PGMOPT = -P usb	# Try   -B 10   in case of programming errors
 
 # Pony-STK200
@@ -56,10 +56,10 @@ info:
 	avr-size $(TARGET).elf
 
 program:
-	@$(AVRDUDE) -p $(MCU) -q -q -u -V -c $(PGMDEV) $(PGMOPT) -U flash:w:$(TARGET).hex:i
+	@$(AVRDUDE) -p $(MCU) -u -V -c $(PGMDEV) $(PGMOPT) -U flash:w:$(TARGET).hex:i
 
 fuses:
-	@$(AVRDUDE) -p $(MCU) -q -q -u -V -c $(PGMDEV) $(PGMOPT) -U lfuse:w:0xE4:m -U hfuse:w:0xDF:m
+	@$(AVRDUDE) -p $(MCU) -u -V -c $(PGMDEV) $(PGMOPT) -U lfuse:w:0xE4:m -U hfuse:w:0xDF:m
 
 clean:
 	@$(REMOVE) $(TARGET).elf
