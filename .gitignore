@@ -6,4 +6,7 @@ firmware/.dep
 *.elf
 *.lst
 *.lss
+*.eep
+*.map
+*.sym
 
