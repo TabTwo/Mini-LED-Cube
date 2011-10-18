@@ -12,19 +12,43 @@
 
 usbMsgLen_t usbFunctionSetup(uchar data[8])
 {
-usbRequest_t    *rq = (void *)data;
+    usbRequest_t    *rq = (void *)data;
 
-    if((rq->bmRequestType & USBRQ_TYPE_MASK) == USBRQ_TYPE_VENDOR){
-        if(rq->bRequest == CUSTOM_RQ_SET_STATUS){
+    if ( (rq->bmRequestType & USBRQ_TYPE_MASK) == USBRQ_TYPE_VENDOR )
+    {
+        if ( rq->bRequest == CUSTOM_RQ_SET_STATUS )
+        {
 
-            // receive animation data
+            /*if (rq->wIndex.bytes[0] == 0)
+                cube[0][0][0] = 1;
+            if (rq->wIndex.bytes[0] == 1)
+                cube[0][0][1] = 1;
+            if (rq->wIndex.bytes[0] == 2)
+                cube[0][0][2] = 1;
+            if (rq->wIndex.bytes[0] == 3)
+                cube[0][1][0] = 1;*/
 
-        }else if(rq->bRequest == CUSTOM_RQ_GET_STATUS){
+            if      (rq->wIndex.bytes[0] == 0)
+                    x = rq->wValue.bytes[0];
+
+            else if (rq->wIndex.bytes[0] == 1)
+                    y = rq->wValue.bytes[0];
+
+            else if (rq->wIndex.bytes[0] == 2)
+                    z = rq->wValue.bytes[0];
+
+            else if (rq->wIndex.bytes[0] == 3)
+                    cube[x][y][z] = rq->wValue.bytes[0];
+
+        } else if ( rq->bRequest == CUSTOM_RQ_GET_STATUS ) {
+            // Send one byte to the USB host.
+
             //static uchar dataBuffer[1];     // buffer must stay valid when usbFunctionSetup returns
-            //dataBuffer[0] = ((LED_PORT_OUTPUT & _BV(LED_BIT)) != 0);
-            //usbMsgPtr = dataBuffer;         // tell the driver which data to return
+            //usbMsgPtr = 0;         // tell the driver which data to return
             //return 1;                       // tell the driver to send 1 byte
-            return 0;                       // tell the driver to send 1 byte
+
+            //return 0;                       // tell the driver to send 0 byte
+
         }
     }else{
         /* class requests USBRQ_HID_GET_REPORT and USBRQ_HID_SET_REPORT are
@@ -43,11 +67,14 @@ void init_usb(void)
 
     usbInit();
     usbDeviceDisconnect();  /* enforce re-enumeration, do this while interrupts are disabled! */
+
     i = 0;
     while(--i){             /* fake USB disconnect for > 250 ms */
         //wdt_reset();
         _delay_ms(1);
+        //sleep_nop(255);
     }
+
     usbDeviceConnect();
 
     sei(); // enable global interrupts
@@ -68,7 +95,7 @@ void init_usb(void)
 
     ...mainloop start...
 
-        wdt_reset(); // we are alive, please dont reset the µC
+        wdt_reset(); // we are alive, please dont reset the µC (optional)
         usbPoll(); // keep the usb connection up
 
     ...end mainloop...

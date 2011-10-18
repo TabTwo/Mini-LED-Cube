@@ -10,6 +10,8 @@
 #ifndef __usb_h__
 #define __usb_h__
 
+#include "globals.h"
+
 /*
 This example should run on most AVRs with only little changes. No special
 hardware resources except INT0 are used. You may have to change usbconfig.h for
@@ -19,12 +21,11 @@ We assume that an LED is connected to port B bit 0. If you connect it to a
 different port or bit, change the macros below:
 */
 
-#include <avr/io.h>
-//#include <avr/wdt.h>
 #include <avr/interrupt.h>  /* for sei() */
+//#include <avr/io.h>
+//#include <avr/wdt.h>
 #include <util/delay.h>     /* for _delay_ms() */
-
-#include <avr/pgmspace.h>   /* required by usbdrv.h */
+//#include <avr/pgmspace.h>   /* required by usbdrv.h */
 
 #include "usbconfig.h"
 #include "usbdrv.h"
@@ -54,6 +55,13 @@ PROGMEM char usbHidReportDescriptor[22] = {    /* USB report descriptor */
 
 void init_usb(void);
 
+volatile uint8_t x;
+volatile uint8_t y;
+volatile uint8_t z;
+
+// usb buffer
+//extern uint8_t buffer[3][3][3];    // Framebuffer
+extern uint8_t cube[3][3][3];    // Framebuffer
 
 #endif // __usb_h__
 

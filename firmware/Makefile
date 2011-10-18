@@ -44,11 +44,9 @@ MCU = attiny2313
 # This is only used to define F_CPU in all assembler and c-sources.
 F_CPU = 12000000UL
 
-# 8MHz internal (basic firmware)
-#LFUSE=0xE4
-# external clock
-LFUSE=0xFF
-HFUSE=0xDF
+# external clock, boden, noclkdiv
+LFUSE=0xEF
+HFUSE=0xDB
 
 # Output format. (can be srec, ihex, binary)
 FORMAT = ihex
@@ -81,7 +79,7 @@ OPT = s
 # Native formats for AVR-GCC's -g are stabs [default], or dwarf-2.
 # AVR (extended) COFF requires stabs, plus an avr-objcopy run.
 #DEBUG = stabs
-DEBUG = # dwarf-2
+DEBUG =
 
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
@@ -113,19 +111,17 @@ CINCS  = -Iusbdrv
 CFLAGS = #-g$(DEBUG)
 CFLAGS += $(CDEFS) $(CINCS)
 CFLAGS += -O$(OPT)
-CFLAGS += -funsigned-char
+#CFLAGS += -funsigned-char
 #CFLAGS += -funsigned-bitfields
 #CFLAGS += -fpack-struct
 #CFLAGS += -fshort-enums
-CFLAGS += -fno-split-wide-types
+#CFLAGS += -fno-split-wide-types
 CFLAGS += -fno-move-loop-invariants
 CFLAGS += -fno-tree-scev-cprop
 #CFLAGS += -fno-inline-small-functions
 #CFLAGS += -fno-tree-loop-optimize
-#CFLAGS += -ffunction-sections
-#CFLAGS += -fdata-sections
-CFLAGS += -mcall-prologues
-CFLAGS += -mtiny-stack
+#CFLAGS += -mcall-prologues
+#CFLAGS += -mtiny-stack
 #CFLAGS += -mint8
 CFLAGS += -Wall -Wstrict-prototypes
 CFLAGS += -Wa,-adhlns=$(<:.c=.lst)
@@ -133,7 +129,7 @@ CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += $(CSTANDARD)
 CFLAGS += -DF_CPU=$(F_CPU)
 CFLAGS += -ffunction-sections
-CFLAGS += -fdata-sections
+#CFLAGS += -fdata-sections
 CFLAGS += -Wl,--gc-sections
 
 
