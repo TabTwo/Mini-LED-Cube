@@ -6,4 +6,5 @@ firmware/.dep
 *.elf
 *.lst
 *.lss
-
+*.s#*
+*.b#*
