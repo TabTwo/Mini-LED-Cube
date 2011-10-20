@@ -9,8 +9,8 @@ void moveCameraPosition(float direction) {
   eyePos += direction;
   if (eyePos > 360.0) eyePos = 0.0;
 
-  lookX = cos(eyePos * PI/180.0)*(CUBE_SIZE/2+50.0) + (CUBE_SIZE/2);
-  lookZ = sin(eyePos * PI/180.0)*(CUBE_SIZE/2+50.0) + (CUBE_SIZE/2);
+  lookX = sin(eyePos * PI/180.0)*70.0;
+  lookZ = cos(eyePos * PI/180.0)*70.0;
 }
 
 void moveCameraAngle(float angle) {
