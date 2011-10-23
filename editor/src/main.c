@@ -8,12 +8,13 @@
 #include "input.h"
 
 float ledOnMaterial[] = {0.0, 0.0, 1.0, 1.0};
+float ledOffMaterial[] = {0.1, 0.1, 0.1, 0.0};
+
 float wireMaterial[] = {0.7, 0.7, 0.7, 1.0};
 float innerWireMaterial[] = {0.2, 0.2, 0.2, 0.3};
 
-float light_diffuse[] = {0.0, 0.0, 1.0, 1.0};
-float light_position[] = {1.0, 1.0, 1.0, 0.0};
-
+float backgroundColor[] = {0.3, 0.3, 0.3, 0.4};
+float light0Pos[] = {70, 70, 70, 0.0};
 
 float lookX = 0.0, lookZ = 0.0;
 float eyePos = 0.0, eyeAngle = 45.0;
@@ -36,11 +37,13 @@ int main(int argc, char* argv[]) {
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glShadeModel(GL_SMOOTH);
 
-  // OpenGL Features
+  // Lighting
   glEnable(GL_LIGHTING);
-  glEnable(GL_LIGHT0);
-
   glEnable(GL_DEPTH_TEST);
+
+  glEnable(GL_LIGHT0);
+  glLightfv(GL_LIGHT0, GL_POSITION, light0Pos);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, backgroundColor);
 
   glMatrixMode(GL_MODELVIEW);
   moveCameraPosition(0); // Init the Position
