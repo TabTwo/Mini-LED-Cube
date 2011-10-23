@@ -50,7 +50,6 @@ R1       10k             R-EU_0204/2V      0204V        rcl        1
 R2       1k5             R-EU_0204/2V      0204V        rcl        1
 R3       69              R-EU_0204/2V      0204V        rcl        1
 R4       69              R-EU_0204/2V      0204V        rcl        1
-R5       1M              R-EU_0204/2V      0204V        rcl        1
 SV1                      MA03-1            MA03-1       con-lstb   1
 SV2                      MA03-1            MA03-1       con-lstb   1
 SV3                      MA03-1            MA03-1       con-lstb   1
