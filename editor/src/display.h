@@ -2,7 +2,7 @@
 #define _DISPLAY_H
 
 
-void drawLEDs(int orientation, int mode);
+void drawLEDs(int mode);
 void drawWires();
 
 void display();

@@ -26,9 +26,13 @@ extern float innerWireMaterial[];
 // Movement
 extern float lookX, lookZ;
 extern float eyePos, eyeAngle;
+extern int ledOrientation;
 
 // Objects
 extern GLUquadricObj *quadric;
+
+// LED data
+extern int currentFrame[27];
 
 #endif
 

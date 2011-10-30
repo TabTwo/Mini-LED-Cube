@@ -5,22 +5,22 @@
 #include "display.h"
 
 
-void drawLEDs(int orientation, int mode) {
+void drawLEDs(int mode) {
   int x, y, z;
-  int colorIndex = 0;
+  int ledIndex = 0;
 
-  if (orientation == TOP_ORIENTATION) {
+  if (ledOrientation == TOP_ORIENTATION) {
     glRotatef(90, 2, 0, 0);
   }
 
   for (z=-10; z<=10; z+=10) // Ebene
     for (y=-10; y<=10; y+=10) // Zeile
       for (x=-10; x<=10; x+=10) { // Spalte
+        ledIndex++;
         if (mode == PICKING_MODE) {
-          glColor3ub(0, 0, colorIndex*8);
-          colorIndex++;
+          glColor3ub(0, 0, ledIndex*8);
         } else {
-          glMaterialfv(GL_FRONT, GL_AMBIENT, (z == 0 ? ledOnMaterial : ledOffMaterial));
+          glMaterialfv(GL_FRONT, GL_AMBIENT, (currentFrame[ledIndex-1] == 1 ? ledOnMaterial : ledOffMaterial));
         }
 
         glPushMatrix();
@@ -79,7 +79,7 @@ void setScene() {
 // OpenGL Display function
 void display() {
   setScene();
-  drawLEDs(TOP_ORIENTATION, RENDER_MODE);
+  drawLEDs(RENDER_MODE);
   drawWires();
   glutSwapBuffers();
 }
@@ -90,7 +90,7 @@ void displayPickingObjects() {
   glDisable(GL_DITHER);
   glDisable(GL_LIGHTING);
 
-  drawLEDs(TOP_ORIENTATION, PICKING_MODE);
+  drawLEDs(PICKING_MODE);
 
   glEnable(GL_LIGHTING);
   glEnable(GL_DITHER);
