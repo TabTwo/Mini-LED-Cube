@@ -33,6 +33,7 @@ int main(int argc, char* argv[]) {
   glutDisplayFunc(display);
   glutKeyboardFunc(keyboard);
   glutSpecialFunc(keyboard_special);
+  glutMouseFunc(mouse);
 
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glShadeModel(GL_SMOOTH);
