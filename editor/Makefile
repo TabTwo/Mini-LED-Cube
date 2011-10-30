@@ -12,6 +12,7 @@ all:
 
 	$(CC) $(CFLAGS) $(LIBS) -o ledcube-edit main.o display.o input.o
 	chmod +x ledcube-edit
+	strip ledcube-edit
 
 clean:
 	rm -f *.o
