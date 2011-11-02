@@ -4,6 +4,8 @@
 
 #include "config.h"
 #include "input.h"
+#include "display.h"
+
 
 void moveCameraPosition(float direction) {
   eyePos += direction;
@@ -44,5 +46,24 @@ void keyboard_special(int key, int x, int y) {
       moveCameraAngle(MOVE_SPEED*-1);
   }
   glutPostRedisplay();
+}
+
+void mouse(int button, int state, int x, int y) {
+  if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+    int position, viewport[4];
+    GLubyte pixel[3];
+
+    displayPickingObjects();
+
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glReadPixels(x, viewport[3]-y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, (void*)pixel);
+    position = ((int)pixel[2]/8)-1; // Selected LED
+
+    printf("%d\n", position);
+    currentFrame[position] = currentFrame[position] == 0 ? 1 : 0;
+    printf("%d\n", currentFrame[position]);
+
+    display();
+  }
 }
 
