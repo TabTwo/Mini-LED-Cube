@@ -63,6 +63,7 @@ void init()
 ISR (TIMER1_COMPA_vect)
 {
 
+    // Vorgang für reihenweise Ausgabe.
     // Alle Pins von PORTD auf LOW setzen
     // Höchstes Bit in PORTA auf 0 setzen (Leitung 9 für letzte Reihe)
 
