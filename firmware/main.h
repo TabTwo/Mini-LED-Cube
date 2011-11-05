@@ -15,15 +15,14 @@
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
-//#include <util/delay.h>
+#include <util/delay.h>
 //#include <avr/pgmspace.h>
 //#include <avr/wdt.h>
 
-// Cube-Array
-uint8_t cube[3][3][3];
-uint8_t buffer[3][3][3];    // Framebuffer
-
-volatile uint8_t frame_done = 0;
+// Cube-Data
+volatile uint32_t cube = 0x00000000;
+// Bit Offset in Cube-Data
+volatile uint8_t cube_row_offset = 0x00;
 
 // Prototypen
 void init(void);
