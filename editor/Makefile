@@ -2,6 +2,7 @@ CC=gcc
 CFLAGS=-Wall
 INCLUDES=-I/usr/include/GL
 LIBS=-lglut -lGLU -lGL -lm
+GTKLIBS=`pkg-config --cflags --libs gtk+-2.0` -export-dynamic
 
 SRCDIR=src
 
@@ -14,7 +15,11 @@ all:
 	chmod +x ledcube-edit
 	strip ledcube-edit
 
+gui:
+	$(CC) $(CFLAGS) $(GTKLIBS) -o gui $(SRCDIR)/main_gui.c
+
 clean:
 	rm -f *.o
+	rm -f gui
 	#rm -f ledcube-edit
 
