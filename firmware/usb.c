@@ -26,7 +26,7 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
             if (rq->wIndex.bytes[0] == 2)
                 cube[0][0][2] = 1;
             if (rq->wIndex.bytes[0] == 3)
-                cube[0][1][0] = 1;*/
+                cube[0][1][0] = 1;
 
             if      (rq->wIndex.bytes[0] == 0)
                     x = rq->wValue.bytes[0];
@@ -39,7 +39,7 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
 
             else if (rq->wIndex.bytes[0] == 3)
                     cube[x][y][z] = rq->wValue.bytes[0];
-
+*/
         } else if ( rq->bRequest == CUSTOM_RQ_GET_STATUS ) {
             // Send one byte to the USB host.
 

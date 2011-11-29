@@ -42,40 +42,42 @@ void init()
     // Timer-Interrupt "TIMER1" vorbereiten
     //cli(); //
 
-    set_bit(TIMSK, OCIE1A);
-    set_bit(TCCR1B, WGM12);
+    set_bit(TIMSK, OCIE1A); // Interrupt für ISR COMPA
+    set_bit(TCCR1B, WGM12); // Überlauf
 
     // Animations-Geschwindigkeit
     // (vergleichswert bei dem der Interrupt ausgelöst wird)
-    OCR1AH = 0x01;
-    OCR1AL = 0x00;
+    // 625d = 0x271 = 0b00000010, 0b01110001
+    OCR1AH = 0b00000010;
+    OCR1AL = 0b01110001;
 
     // anpassen auf reihenweise ausgabe
+    // Vorteiler durch 64 (0x011) ----> CS12=0, CS11=1, CS10=1
     clear_bit(TCCR1B, CS12);    // Prescaler 64
     set_bit(TCCR1B, CS11);
     set_bit(TCCR1B, CS10);
 
-    sei();
+
+
+    sei(); // Set enable interrupt bit (Muss gesetzt werden damit es überhaupt aufgerufen wird)
 }
 
 // Interruptvektor von TIMER1
 //SIGNAL(SIG_OUTPUT_COMPARE1A) // alte schreibweise
 ISR (TIMER1_COMPA_vect)
 {
+    // PORTD = __, 9, C, B, A,D+,D-,__
+    PORTD &= 0b11000111; // Reset durch Bitmaske
+    PORTD |= ((1 << (cube_level))<< 3); // Level setzen (A=0, B=1, C=2)
 
-    // Vorgang für reihenweise Ausgabe.
-    // Alle Pins von PORTD auf LOW setzen
-    // Höchstes Bit in PORTA auf 0 setzen (Leitung 9 für letzte Reihe)
+    // PORTB = 1..8
+    // 0 = leuchtet, 1 = leuchtet nicht (invertiert!)
+    PORTB = ~(cube & (0b11111111 << (cube_level*9)));
 
-    // bei cube_row_offset % 3 eine Ebene weiter schalten (ABC-Leitungen durch rotieren)
-    // bei Systemstart muss A aktiviert sein.
+    PORTD &= 0b10111111; // 7tes Bit löschen (9)
+    PORTD |= ~((cube & (1 << (cube_level*9+8))) << 6);
 
-    // bits der anzuzeigenden reihe auslesen (cube & (0b00000111 << cube_row_offset))
-    // und in PORTD und Pin 8 von PORTA setzen
-
-    // cube_row_offset += 3 // immer um 3 Bits weiter springen in 32Bit Variable
-
-    // cube_row_offset auf 0 setzen wenn maximum überschritten (27-3 = 24)
-
+    //cube_level++;
+    //if (cube_level > 2) cube_level = 0;
 }
 
