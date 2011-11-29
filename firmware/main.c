@@ -42,36 +42,42 @@ void init()
     // Timer-Interrupt "TIMER1" vorbereiten
     //cli(); //
 
-    set_bit(TIMSK, OCIE1A);
-    set_bit(TCCR1B, WGM12);
+    set_bit(TIMSK, OCIE1A); // Interrupt für ISR COMPA
+    set_bit(TCCR1B, WGM12); // Überlauf
 
     // Animations-Geschwindigkeit
     // (vergleichswert bei dem der Interrupt ausgelöst wird)
-    OCR1AH = 0x01;
-    OCR1AL = 0x00;
+    // 625d = 0x271 = 0b00000010, 0b01110001
+    OCR1AH = 0b00000010;
+    OCR1AL = 0b01110001;
 
     // anpassen auf reihenweise ausgabe
+    // Vorteiler durch 64 (0x011) ----> CS12=0, CS11=1, CS10=1
     clear_bit(TCCR1B, CS12);    // Prescaler 64
     set_bit(TCCR1B, CS11);
     set_bit(TCCR1B, CS10);
 
-    sei();
+
+
+    sei(); // Set enable interrupt bit (Muss gesetzt werden damit es überhaupt aufgerufen wird)
 }
 
 // Interruptvektor von TIMER1
+//SIGNAL(SIG_OUTPUT_COMPARE1A) // alte schreibweise
 ISR (TIMER1_COMPA_vect)
 {
+    // PORTD = __, 9, C, B, A,D+,D-,__
+    PORTD &= 0b11000111; // Reset durch Bitmaske
+    PORTD |= ((1 << (cube_level))<< 3); // Level setzen (A=0, B=1, C=2)
 
-	PORTD &= 0xC7; // 0b11000111
-	PORTD |= (1 << (cube_layer + 3)); // shift "1" to bit 3,4,5 in PortD
-	PORTB = ~(cube & (0xFF << (cube_layer * 9))); // set the lines 1 to 8 negated to the port b
-	PORTD = (~(cube & (1 << cube_layer * 9 + 8)) << 6)
-	        | (PORTD & 0x7F); // 0b01111111 keep the ower 7 bits and set the 9. bit from the LEDCube data.
+    // PORTB = 1..8
+    // 0 = leuchtet, 1 = leuchtet nicht (invertiert!)
+    PORTB = ~(cube & (0b11111111 << (cube_level*9)));
 
-	cube_layer++;
-	
-	if (cube_layer > 2)
-		cube_layer = 0;
-			
+    PORTD &= 0b10111111; // 7tes Bit löschen (9)
+    PORTD |= ~((cube & (1 << (cube_level*9+8))) << 6);
+
+    //cube_level++;
+    //if (cube_level > 2) cube_level = 0;
 }
 

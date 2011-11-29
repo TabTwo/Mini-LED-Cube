@@ -20,9 +20,9 @@
 //#include <avr/wdt.h>
 
 // Cube-Data
-volatile uint32_t cube = 0x00000000;
+volatile uint32_t cube = 0x0000000F; // Aktuelle Frame
 // Bit Offset in Cube-Data
-volatile uint8_t cube_layer = 0x00;
+volatile uint8_t cube_level = 0; // Ebene
 
 // Prototypen
 void init(void);
