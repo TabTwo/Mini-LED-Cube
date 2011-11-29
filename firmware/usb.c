@@ -12,21 +12,22 @@
 
 usbMsgLen_t usbFunctionSetup(uchar data[8])
 {
-    usbRequest_t    *rq = (void *)data;
+    usbRequest_t *rq = (void *)data;
 
     if ( (rq->bmRequestType & USBRQ_TYPE_MASK) == USBRQ_TYPE_VENDOR )
     {
         if ( rq->bRequest == CUSTOM_RQ_SET_STATUS )
         {
 
-            /*if (rq->wIndex.bytes[0] == 0)
+/*
+			if (rq->wIndex.bytes[0] == 0)
                 cube[0][0][0] = 1;
             if (rq->wIndex.bytes[0] == 1)
                 cube[0][0][1] = 1;
             if (rq->wIndex.bytes[0] == 2)
                 cube[0][0][2] = 1;
             if (rq->wIndex.bytes[0] == 3)
-                cube[0][1][0] = 1;*/
+                cube[0][1][0] = 1;
 
             if      (rq->wIndex.bytes[0] == 0)
                     x = rq->wValue.bytes[0];
@@ -38,7 +39,7 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
                     z = rq->wValue.bytes[0];
 
             else if (rq->wIndex.bytes[0] == 3)
-                    cube[x][y][z] = rq->wValue.bytes[0];
+                    //cube[x][y][z] = rq->wValue.bytes[0];
 
         } else if ( rq->bRequest == CUSTOM_RQ_GET_STATUS ) {
             // Send one byte to the USB host.
@@ -48,7 +49,7 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
             //return 1;                       // tell the driver to send 1 byte
 
             //return 0;                       // tell the driver to send 0 byte
-
+*/
         }
     }else{
         /* class requests USBRQ_HID_GET_REPORT and USBRQ_HID_SET_REPORT are
@@ -69,7 +70,7 @@ void init_usb(void)
     usbDeviceDisconnect();  /* enforce re-enumeration, do this while interrupts are disabled! */
 
     i = 0;
-    while(--i){             /* fake USB disconnect for > 250 ms */
+    while(--i) {             /* fake USB disconnect for > 250 ms */
         //wdt_reset();
         _delay_ms(1);
         //sleep_nop(255);

@@ -22,7 +22,7 @@
 // Cube-Data
 volatile uint32_t cube = 0x00000000;
 // Bit Offset in Cube-Data
-volatile uint8_t cube_row_offset = 0x00;
+volatile uint8_t cube_layer = 0x00;
 
 // Prototypen
 void init(void);

@@ -59,23 +59,19 @@ void init()
 }
 
 // Interruptvektor von TIMER1
-//SIGNAL(SIG_OUTPUT_COMPARE1A) // alte schreibweise
 ISR (TIMER1_COMPA_vect)
 {
 
-    // Vorgang für reihenweise Ausgabe.
-    // Alle Pins von PORTD auf LOW setzen
-    // Höchstes Bit in PORTA auf 0 setzen (Leitung 9 für letzte Reihe)
+	PORTD &= 0xC7; // 0b11000111
+	PORTD |= (1 << (cube_layer + 3)); // shift "1" to bit 3,4,5 in PortD
+	PORTB = ~(cube & (0xFF << (cube_layer * 9))); // set the lines 1 to 8 negated to the port b
+	PORTD = (~(cube & (1 << cube_layer * 9 + 8)) << 6)
+	        | (PORTD & 0x7F); // 0b01111111 keep the ower 7 bits and set the 9. bit from the LEDCube data.
 
-    // bei cube_row_offset % 3 eine Ebene weiter schalten (ABC-Leitungen durch rotieren)
-    // bei Systemstart muss A aktiviert sein.
-
-    // bits der anzuzeigenden reihe auslesen (cube & (0b00000111 << cube_row_offset))
-    // und in PORTD und Pin 8 von PORTA setzen
-
-    // cube_row_offset += 3 // immer um 3 Bits weiter springen in 32Bit Variable
-
-    // cube_row_offset auf 0 setzen wenn maximum überschritten (27-3 = 24)
-
+	cube_layer++;
+	
+	if (cube_layer > 2)
+		cube_layer = 0;
+			
 }
 
