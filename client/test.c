@@ -92,7 +92,7 @@ int                 cnt, vid, pid;
                             cnt = usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, v, 0, buffer, 0, 5000);
                             if (cnt < 0)
                             {
-                                if(usbOpenDevice(&handle, vid, vendor, pid, product, NULL, NULL, NULL) != 0){
+                                if (usbOpenDevice(&handle, vid, vendor, pid, product, NULL, NULL, NULL) != 0){
                                     fprintf(stderr, "Could not find USB device \"%s\" with vid=0x%x pid=0x%x\n", product, vid, pid);
                                     exit(1);
                                 }
