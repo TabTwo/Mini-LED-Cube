@@ -20,7 +20,9 @@
 //#include <avr/wdt.h>
 
 // Cube-Data
-volatile uint32_t cube = 0x0000000F; // Aktuelle Frame
+//volatile uint32_t cube = 0x07007007; // Aktuelles Frame
+volatile uint32_t cube = 0xffffffff; // Aktuelles Frame
+//volatile uint32_t cube = 0x00000000; // Aktuelles Frame
 // Bit Offset in Cube-Data
 volatile uint8_t cube_level = 0; // Ebene
 

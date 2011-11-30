@@ -16,6 +16,8 @@ int main(void)
     init();
     init_usb();
 
+    uint8_t anim = 0;
+
     // Hauptschleife
     //while (1)
     for (;;)
@@ -25,6 +27,19 @@ int main(void)
 
         // hier pause einfügen
         _delay_ms(50); // beispielsweise 50 ms => muss angepasst werden an usb kommunikation
+
+        anim++;
+
+        if (anim == 40)
+        {
+            if (cube == 0xffffffff)
+                cube = 0x07007007;
+            else if (cube == 0x07007007)
+                cube = 0x00000000;
+            else if (cube == 0x00000000)
+                cube = 0xffffffff;
+            anim = 0;
+        }
 
     }
 }
@@ -36,8 +51,8 @@ void init()
     DDRB  =    0b11111111;    // PB0-PB7: LED 1-8 (Kathoden)
     PORTB =    0b11111111;    // HIGH
 
-    DDRD  =    0b1111000;    // PD6: LED 9 (Kathode); PD5-PD3: A-C (Anoden)
-    PORTD =    0b1000000;
+    DDRD  =    0b01111000;    // PD6: LED 9 (Kathode); PD5-PD3: A-C (Anoden)
+    PORTD =    0b01000000;
 
     // Timer-Interrupt "TIMER1" vorbereiten
     //cli(); //
@@ -67,17 +82,28 @@ void init()
 ISR (TIMER1_COMPA_vect)
 {
     // PORTD = __, 9, C, B, A,D+,D-,__
-    PORTD &= 0b11000111; // Reset durch Bitmaske
-    PORTD |= ((1 << (cube_level))<< 3); // Level setzen (A=0, B=1, C=2)
+    PORTD &= 0b10000111; // 7tes Bit löschen (Leitung 9) und alle Ebenen deaktivieren
+    PORTD |= ((1 << cube_level) << 3); // cube_level setzen (Ebene A=0, B=1, C=2)
+
+    uint32_t tmp  = cube_level * 9;
+    uint32_t tmp1 = tmp + 8;
 
     // PORTB = 1..8
     // 0 = leuchtet, 1 = leuchtet nicht (invertiert!)
-    PORTB = ~(cube & (0b11111111 << (cube_level*9)));
+    //PORTB = ~((uint32_t)(cube & (0b11111111 << tmp)) >> tmp);
+    //PORTB = ((uint32_t)(~cube & (uint32_t)(0xff << tmp)) >> tmp);
+    PORTB = ~((cube >> tmp) & 0xff);
 
-    PORTD &= 0b10111111; // 7tes Bit löschen (9)
-    PORTD |= ~((cube & (1 << (cube_level*9+8))) << 6);
+    // PORTD &= 0b10111111; // bereits oben erledigt
+    //PORTD |= ~(((uint32_t)(cube & (1 << (tmp+8))) >> (tmp+8)) << 6);
+    //PORTD |= (((~cube & (1 << tmp)) >> tmp) << 6);
+    if ( (((cube >> tmp) >> 8) & 0x01) == 1 )
+        PORTD &= ~(1 << 6);
+    else
+        PORTD |= (1 << 6);
+    //PORTD |= (1 << 6); // test to always off
 
-    //cube_level++;
-    //if (cube_level > 2) cube_level = 0;
+    cube_level++;
+    if (cube_level > 2) cube_level = 0;
 }
 

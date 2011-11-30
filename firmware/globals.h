@@ -8,10 +8,6 @@
 #define FALSE   0
 #define TRUE    1
 
-// Definitionen
-#define PIXEL_TON    30
-#define PIXEL_TOFF   10
-
 #define sleep_nop(cnt)   for (uint8_t i = 0; i < cnt; i++) { asm volatile("nop"::); }
 
 // Pixelmakros
