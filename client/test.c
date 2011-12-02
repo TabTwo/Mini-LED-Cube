@@ -33,7 +33,7 @@ usb_dev_handle      *handle = NULL;
 const unsigned char rawVid[2] = {USB_CFG_VENDOR_ID}, rawPid[2] = {USB_CFG_DEVICE_ID};
 char                vendor[] = {USB_CFG_VENDOR_NAME, 0}, product[] = {USB_CFG_DEVICE_NAME, 0};
 char                buffer[4];
-int                 cnt, vid, pid;
+int                 vid, pid;
 
     usb_init();
 
@@ -67,43 +67,22 @@ int                 cnt, vid, pid;
     }
 #endif
 
-    int i,x,y,z,onoff = 0;
-    while (1)
-    {
-        onoff = (onoff == 0) ? 1 : 0;
-        for (x = 0; x <3; x++)
-            for (y = 0; y <3; y++)
-                for (z = 0; z <3; z++)
-                {
-                    for (i = 0; i < 4; i++)
-                    {
-                        int v = 0;
-                        if (i == 0)
-                            v = x;
-                        if (i == 1)
-                            v = y;
-                        if (i == 2)
-                            v = z;
-                        if (i == 3)
-                            v = onoff;
-                        cnt = -1;
-                        do {
-                            sleep(1);
-                            cnt = usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, v, 0, buffer, 0, 5000);
-                            if (cnt < 0)
-                            {
-                                if (usbOpenDevice(&handle, vid, vendor, pid, product, NULL, NULL, NULL) != 0){
-                                    fprintf(stderr, "Could not find USB device \"%s\" with vid=0x%x pid=0x%x\n", product, vid, pid);
-                                    exit(1);
-                                }
-                            }
-                        } while (cnt < 0);
+    // int usb_control_msg(usb_dev_handle *dev, int requesttype, int request, int value, int index, char *bytes, int size, int timeout);
+    // 32 bit in 2 transmission
+    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0x7007, 0x1B, buffer, 0, 5000);
+    sleep(2);
+    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0x0700, 0x1C, buffer, 0, 5000);
 
-                    }
+    // bitwise set/get
+    //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0, 25, buffer, 0, 5000);
+    sleep(2);
 
-                    fprintf(stdout, "%d %d %d %d\n",x,y,z,onoff);
-                }
-     }
+    int i = 0;
+    for (i = 0; i < 27; i++)
+        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 1, i, buffer, 0, 5000);
+
+    for (i = 26; i >= 0; i--)
+        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0, i, buffer, 0, 5000);
 
     usb_close(handle);
     return 0;
