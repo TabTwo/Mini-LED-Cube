@@ -16,7 +16,7 @@ int main(void)
     init();
     init_usb();
 
-    uint8_t anim = 0;
+    //uint8_t anim = 0;
 
     // Hauptschleife
     //while (1)
@@ -28,9 +28,9 @@ int main(void)
         // hier pause einfügen
         _delay_ms(50); // beispielsweise 50 ms => muss angepasst werden an usb kommunikation
 
-        anim++;
+        /*anim++;
 
-        if (anim == 40)
+        if (anim >= 0)
         {
             if (cube == 0xffffffff)
                 cube = 0x07007007;
@@ -38,8 +38,18 @@ int main(void)
                 cube = 0x00000000;
             else if (cube == 0x00000000)
                 cube = 0xffffffff;
-            anim = 0;
-        }
+
+			anim = 0;
+        }*/
+        /*if (anim >= 40)
+        {
+			cube += 1;
+
+			if (cube > 0x07ffffff)
+				cube = 0;
+
+			anim = 0;
+        }*/
 
     }
 }
@@ -58,7 +68,7 @@ void init()
     //cli(); //
 
     set_bit(TIMSK, OCIE1A); // Interrupt für ISR COMPA
-    set_bit(TCCR1B, WGM12); // Überlauf
+    //set_bit(TCCR1B, WGM12); // Überlauf
 
     // Animations-Geschwindigkeit
     // (vergleichswert bei dem der Interrupt ausgelöst wird)
@@ -68,11 +78,10 @@ void init()
 
     // anpassen auf reihenweise ausgabe
     // Vorteiler durch 64 (0x011) ----> CS12=0, CS11=1, CS10=1
-    clear_bit(TCCR1B, CS12);    // Prescaler 64
-    set_bit(TCCR1B, CS11);
-    set_bit(TCCR1B, CS10);
-
-
+    //clear_bit(TCCR1B, CS12);    // Prescaler 64
+    //set_bit(TCCR1B, CS11);
+    //set_bit(TCCR1B, CS10);
+    TCCR1B |= (1 << CS11) | (1 << CS10) | (1 << WGM12);
 
     sei(); // Set enable interrupt bit (Muss gesetzt werden damit es überhaupt aufgerufen wird)
 }
@@ -81,12 +90,12 @@ void init()
 //SIGNAL(SIG_OUTPUT_COMPARE1A) // alte schreibweise
 ISR (TIMER1_COMPA_vect)
 {
-    // PORTD = __, 9, C, B, A,D+,D-,__
+
+	// PORTD = __, 9, C, B, A,D+,D-,__
     PORTD &= 0b10000111; // 7tes Bit löschen (Leitung 9) und alle Ebenen deaktivieren
     PORTD |= ((1 << cube_level) << 3); // cube_level setzen (Ebene A=0, B=1, C=2)
 
     uint32_t tmp  = cube_level * 9;
-    uint32_t tmp1 = tmp + 8;
 
     // PORTB = 1..8
     // 0 = leuchtet, 1 = leuchtet nicht (invertiert!)
@@ -101,9 +110,11 @@ ISR (TIMER1_COMPA_vect)
         PORTD &= ~(1 << 6);
     else
         PORTD |= (1 << 6);
+
     //PORTD |= (1 << 6); // test to always off
 
     cube_level++;
     if (cube_level > 2) cube_level = 0;
+
 }
 
