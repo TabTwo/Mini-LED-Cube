@@ -26,7 +26,7 @@ int main(void)
         usbPoll(); // keep connected
 
         // hier pause einfügen
-        _delay_ms(50); // beispielsweise 50 ms => muss angepasst werden an usb kommunikation
+        //_delay_ms(1); // beispielsweise 50 ms => muss angepasst werden an usb kommunikation
 
         /*anim++;
 
