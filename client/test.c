@@ -79,10 +79,16 @@ int                 vid, pid;
 
     int i = 0;
     for (i = 0; i < 27; i++)
+    {
         usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 1, i, buffer, 0, 300);
+        sleep(1);
+    }
 
     for (i = 26; i >= 0; i--)
+    {
         usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0, i, buffer, 0, 300);
+        sleep(1);
+    }
 
     usb_close(handle);
     return 0;
