@@ -1,111 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<interface>
-  <requires lib="gtk+" version="2.16"/>
+<glade-interface>
+  <!-- interface-requires gtk+ 2.16 -->
   <!-- interface-naming-policy project-wide -->
-  <object class="GtkWindow" id="main_window">
-    <property name="visible">True</property>
+  <widget class="GtkWindow" id="main_window">
+    <property name="extension_events">cursor</property>
     <property name="resizable">False</property>
     <property name="window_position">center-always</property>
-    <signal name="destroy" handler="on_window_destroy"/>
+    <signal name="delete_event" handler="on_main_window_delete_event"/>
     <child>
-      <object class="GtkVBox" id="outher_frame">
+      <widget class="GtkVBox" id="outher_frame">
         <property name="visible">True</property>
         <child>
-          <object class="GtkHandleBox" id="handle">
+          <widget class="GtkHandleBox" id="handle">
             <property name="visible">True</property>
             <child>
-              <object class="GtkToolbar" id="toolbar">
+              <widget class="GtkToolbar" id="toolbar">
                 <property name="visible">True</property>
                 <property name="toolbar_style">both-horiz</property>
                 <child>
-                  <object class="GtkToolItem" id="combobox_frame">
+                  <widget class="GtkToolItem" id="combobox_frame">
                     <property name="visible">True</property>
                     <property name="border_width">7</property>
                     <child>
-                      <object class="GtkComboBoxEntry" id="combobox_port">
+                      <widget class="GtkComboBoxEntry" id="combobox_port">
                         <property name="visible">True</property>
-                      </object>
+                      </widget>
                     </child>
-                  </object>
+                  </widget>
                   <packing>
                     <property name="expand">False</property>
                     <property name="homogeneous">True</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton" id="button_connect">
+                  <widget class="GtkToolButton" id="button_connect">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">Connect to cube</property>
                     <property name="use_underline">True</property>
                     <property name="stock_id">gtk-connect</property>
-                  </object>
+                  </widget>
                   <packing>
                     <property name="expand">False</property>
                     <property name="homogeneous">True</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSeparatorToolItem" id="saparator">
+                  <widget class="GtkSeparatorToolItem" id="saparator">
                     <property name="visible">True</property>
-                  </object>
+                  </widget>
                   <packing>
                     <property name="expand">False</property>
                     <property name="homogeneous">True</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton" id="button_add">
+                  <widget class="GtkToolButton" id="button_add">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">toolbutton3</property>
                     <property name="use_underline">True</property>
                     <property name="stock_id">gtk-add</property>
-                  </object>
+                  </widget>
                   <packing>
                     <property name="expand">False</property>
                     <property name="homogeneous">True</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton" id="button_remove">
+                  <widget class="GtkToolButton" id="button_remove">
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">toolbutton3</property>
                     <property name="use_underline">True</property>
                     <property name="stock_id">gtk-delete</property>
-                  </object>
+                  </widget>
                   <packing>
                     <property name="expand">False</property>
                     <property name="homogeneous">True</property>
                   </packing>
                 </child>
-              </object>
+              </widget>
             </child>
-          </object>
+          </widget>
           <packing>
             <property name="expand">False</property>
             <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <object class="GtkHScale" id="frame_control">
+          <widget class="GtkHScale" id="frame_control">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-          </object>
+          </widget>
           <packing>
             <property name="expand">False</property>
             <property name="position">1</property>
           </packing>
         </child>
         <child>
-          <object class="GtkDrawingArea" id="drawing_area">
+          <widget class="GtkDrawingArea" id="drawing_area">
             <property name="width_request">500</property>
             <property name="height_request">500</property>
             <property name="visible">True</property>
-          </object>
+            <signal name="expose_event" handler="on_drawing_area_expose_event"/>
+            <signal name="realize" handler="on_drawing_area_realize" after="yes"/>
+            <signal name="configure_event" handler="on_drawing_area_configure_event" after="yes"/>
+          </widget>
           <packing>
             <property name="position">2</property>
           </packing>
         </child>
-      </object>
+      </widget>
     </child>
-  </object>
-</interface>
+  </widget>
+</glade-interface>

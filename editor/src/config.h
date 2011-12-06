@@ -22,6 +22,7 @@ extern float ledOnMaterial[];
 extern float ledOffMaterial[];
 extern float wireMaterial[];
 extern float innerWireMaterial[];
+extern float backgroundColor[];
 
 // Movement
 extern float lookX, lookZ;
@@ -30,6 +31,12 @@ extern int ledOrientation;
 
 // Objects
 extern GLUquadricObj *quadric;
+extern GdkGLConfig *glConfig;
+extern GdkGLWindow *glWindow;
+extern GdkGLContext *glContext;
+
+// Dimensions, positions
+extern float light0Pos[];
 
 // LED data
 extern int currentFrame[27];
