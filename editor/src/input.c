@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <math.h>
-#include <glut.h>
+#include <gtk/gtk.h>
+#include <gtk/gtkgl.h>
+#include <GL/glut.h>
 
 #include "config.h"
 #include "input.h"
@@ -63,7 +65,8 @@ void mouse(int button, int state, int x, int y) {
     currentFrame[position] = currentFrame[position] == 0 ? 1 : 0;
     printf("%d\n", currentFrame[position]);
 
-    display();
+    // FIXME: Redraw the gl-container
+    //display();
   }
 }
 
