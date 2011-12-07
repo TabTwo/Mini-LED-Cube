@@ -1,4 +1,4 @@
-Mini LEDCube v0.2 cthn.de (Kai Lauterbach, Aaron Müller v0.1 - 02.10.2011)
+Mini LEDCube v0.2 cthn.de (Kai Lauterbach, Aaron Müller v0.2 - 30.10.2011)
 ==========================================================================
 
 Zuvor sollte die Liste der Bauteile mit der in der Verpackung enthaltenen Anzahl verglichen werden.
