@@ -8,3 +8,7 @@ firmware/.dep
 *.lss
 *.s#*
 *.b#*
+*.eep
+*.map
+*.sym
+
