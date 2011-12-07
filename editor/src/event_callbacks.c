@@ -16,7 +16,7 @@ gboolean on_drawing_area_configure_event(GtkWidget *widget, GdkEventConfigure *e
   if (!gdk_gl_drawable_gl_begin(glDrawable, glContext)) return FALSE;
 
   setScene();
-  
+
   gdk_gl_drawable_gl_end(glDrawable);
   return FALSE;
 }
@@ -45,3 +45,8 @@ void on_drawing_area_realize(GtkWidget *widget, gpointer data) {
 
   gdk_gl_drawable_gl_end(glDrawable);
 }
+
+void on_drawing_area_key_press_event(GtkWidget *widget, gpointer data) {
+  g_print("pressed");
+}
+
