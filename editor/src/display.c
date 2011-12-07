@@ -92,8 +92,8 @@ void display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   setScene();
-  drawLEDs(RENDER_MODE);
   drawWires();
+  drawLEDs(RENDER_MODE);
 }
 
 // Picking function

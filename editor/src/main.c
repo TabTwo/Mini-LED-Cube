@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
   drawingArea = glade_xml_get_widget(xml, "drawing_area");
   gtk_widget_set_gl_capability(drawingArea, glConfig, NULL, TRUE, GDK_GL_RGBA_TYPE);
 
-  
+
   gtk_widget_show(window);
   gtk_main();
 
