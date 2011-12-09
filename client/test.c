@@ -75,19 +75,19 @@ int main(int argc, char **argv)
 
     // bitwise set/get
     //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0, 25, buffer, 0, 5000);
-    sleep(5);
+    sleep(2);
 
     int i = 0;
     for (i = 0; i < 27; i++)
     {
         usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_LED, 1, i, buffer, 0, 300);
-        sleep(1);
+        usleep(250000);
     }
 
     for (i = 26; i >= 0; i--)
     {
         usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_LED, 0, i, buffer, 0, 300);
-        sleep(1);
+        usleep(250000);
     }
 
     usb_close(handle);

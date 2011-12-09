@@ -65,10 +65,9 @@ void init()
     PORTD =    0b01000000;
 
     // Timer-Interrupt "TIMER1" vorbereiten
-    //cli(); //
 
     set_bit(TIMSK, OCIE1A); // Interrupt für ISR COMPA
-    //set_bit(TCCR1B, WGM12); // Überlauf
+    //set_bit(TCCR1B, WGM12); // Überlauf wird unten gesetzt
 
     // Animations-Geschwindigkeit
     // (vergleichswert bei dem der Interrupt ausgelöst wird)
@@ -93,25 +92,16 @@ ISR (TIMER1_COMPA_vect)
 
 	// PORTD = __, 9, C, B, A,D+,D-,__
     PORTD &= 0b10000111; // 7tes Bit löschen (Leitung 9) und alle Ebenen deaktivieren
-    PORTD |= ((1 << cube_level) << 3); // cube_level setzen (Ebene A=0, B=1, C=2)
+    PORTD |= (1 << 6) | ((1 << cube_level) << 3); // cube_level setzen (Ebene A=0, B=1, C=2)
 
-    uint32_t tmp  = cube_level * 9;
+    uint32_t tmp = cube_level * 9;
 
     // PORTB = 1..8
     // 0 = leuchtet, 1 = leuchtet nicht (invertiert!)
-    //PORTB = ~((uint32_t)(cube & (0b11111111 << tmp)) >> tmp);
-    //PORTB = ((uint32_t)(~cube & (uint32_t)(0xff << tmp)) >> tmp);
     PORTB = ~((cube >> tmp) & 0xff);
 
-    // PORTD &= 0b10111111; // bereits oben erledigt
-    //PORTD |= ~(((uint32_t)(cube & (1 << (tmp+8))) >> (tmp+8)) << 6);
-    //PORTD |= (((~cube & (1 << tmp)) >> tmp) << 6);
-    if ( (((cube >> tmp) >> 8) & 0x01) == 1 )
-        PORTD &= ~(1 << 6);
-    else
-        PORTD |= (1 << 6);
-
-    //PORTD |= (1 << 6); // test to always off
+    if ( (((cube >> tmp) >> 8) & 0x01) )
+        PORTD &= ~(1 << 6); // 9. led setzen falls notwendig
 
     cube_level++;
     if (cube_level > 2) cube_level = 0;
