@@ -29,11 +29,11 @@ respectively.
 
 int main(int argc, char **argv)
 {
-usb_dev_handle      *handle = NULL;
-const unsigned char rawVid[2] = {USB_CFG_VENDOR_ID}, rawPid[2] = {USB_CFG_DEVICE_ID};
-char                vendor[] = {USB_CFG_VENDOR_NAME, 0}, product[] = {USB_CFG_DEVICE_NAME, 0};
-char                buffer[4];
-int                 vid, pid;
+	usb_dev_handle      *handle = NULL;
+	const unsigned char rawVid[2] = {USB_CFG_VENDOR_ID}, rawPid[2] = {USB_CFG_DEVICE_ID};
+	char                vendor[] = {USB_CFG_VENDOR_NAME, 0}, product[] = {USB_CFG_DEVICE_NAME, 0};
+	char                buffer[4];
+	int                 vid, pid;
 
     usb_init();
 
@@ -69,9 +69,9 @@ int                 vid, pid;
 
     // int usb_control_msg(usb_dev_handle *dev, int requesttype, int request, int value, int index, char *bytes, int size, int timeout);
     // 32 bit in 2 transmission
-    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0x7007, 0x1B, buffer, 0, 300);
+    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0x7007, 0, buffer, 0, 300);
     //sleep(2);
-    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0x0700, 0x1C, buffer, 0, 300);
+    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0x0700, 1, buffer, 0, 300);
 
     // bitwise set/get
     //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0, 25, buffer, 0, 5000);
@@ -80,13 +80,13 @@ int                 vid, pid;
     int i = 0;
     for (i = 0; i < 27; i++)
     {
-        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 1, i, buffer, 0, 300);
+        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_LED, 1, i, buffer, 0, 300);
         sleep(1);
     }
 
     for (i = 26; i >= 0; i--)
     {
-        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0, i, buffer, 0, 300);
+        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_LED, 0, i, buffer, 0, 300);
         sleep(1);
     }
 

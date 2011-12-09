@@ -16,25 +16,25 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
 
     if ( (rq->bmRequestType & USBRQ_TYPE_MASK) == USBRQ_TYPE_VENDOR )
     {
-        if ( rq->bRequest == CUSTOM_RQ_SET_STATUS )
+        if ( rq->bRequest == CUSTOM_RQ_SET_LED )
+        {
+            if ( rq->wValue.bytes[0] == 1 )
+                cube |= ((uint32_t)1 << rq->wIndex.bytes[0]);
+            else
+                cube &= ~((uint32_t)1 << rq->wIndex.bytes[0]);
+        } else if ( rq->bRequest == CUSTOM_RQ_SET_FRAME )
         {
 
-            if ( rq->wIndex.bytes[0] == 27 )
+            if ( rq->wIndex.bytes[0] == 0 )
             {
                 cube = (cube & (uint32_t)0xffff0000) |
                         rq->wValue.bytes[0] +
                        (rq->wValue.bytes[1] << 8);
-            } else if ( rq->wIndex.bytes[0] == 28 )
+            } else if ( rq->wIndex.bytes[0] == 1 )
             {
                 cube = (cube & (uint32_t)0x0000ffff) |
                        ((uint32_t)(rq->wValue.bytes[0] +
                         (rq->wValue.bytes[1] << 8)) << 16);
-            } else if ( rq->wIndex.bytes[0] < 27 )
-            {
-                if ( rq->wValue.bytes[0] == 1 )
-                    cube |= ((uint32_t)1 << rq->wIndex.bytes[0]);
-                else
-                    cube &= ~((uint32_t)1 << rq->wIndex.bytes[0]);
             }
 
         //} else if ( rq->bRequest == CUSTOM_RQ_GET_STATUS ) {
