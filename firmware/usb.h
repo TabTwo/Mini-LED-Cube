@@ -21,12 +21,6 @@ We assume that an LED is connected to port B bit 0. If you connect it to a
 different port or bit, change the macros below:
 */
 
-#include <avr/interrupt.h>  /* for sei() */
-//#include <avr/io.h>
-//#include <avr/wdt.h>
-#include <util/delay.h>     /* for _delay_ms() */
-//#include <avr/pgmspace.h>   /* required by usbdrv.h */
-
 #include "usbconfig.h"
 #include "usbdrv.h"
 #include "requests.h"       /* The custom request numbers we use */
@@ -56,8 +50,6 @@ PROGMEM char usbHidReportDescriptor[22] = {    /* USB report descriptor */
 void init_usb(void);
 
 // usb buffer
-//extern uint8_t buffer[3][3][3];    // Framebuffer
-//extern uint8_t cube[3][3][3];    // Framebuffer
 extern volatile uint32_t cube; // Framebuffer
 
 #endif // __usb_h__

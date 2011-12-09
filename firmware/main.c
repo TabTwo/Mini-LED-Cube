@@ -11,7 +11,8 @@
 #include "main.h"
 
 // Main
-int main(void)
+int __attribute__((OS_main))
+main()
 {
     // Initialisierung
     init();
@@ -20,9 +21,7 @@ int main(void)
     // Hauptschleife
     for (;;)
     {
-        //wdt_reset(); // we are alive, so don't reset the µC
         usbPoll(); // keep connected
-
     }
 }
 

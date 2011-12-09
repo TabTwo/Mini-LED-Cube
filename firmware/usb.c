@@ -28,29 +28,15 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
             if ( rq->wIndex.bytes[0] == 0 )
             {
                 cube = (cube & (uint32_t)0xffff0000) |
-                        rq->wValue.bytes[0] +
-                       (rq->wValue.bytes[1] << 8);
-            //} else if ( rq->wIndex.bytes[0] == 1 )
+                       ( rq->wValue.bytes[0] +
+                        (rq->wValue.bytes[1] << 8));
             } else {
                 cube = (cube & (uint32_t)0x0000ffff) |
                        ((uint32_t)(rq->wValue.bytes[0] +
                         (rq->wValue.bytes[1] << 8)) << 16);
             }
 
-        //} else if ( rq->bRequest == CUSTOM_RQ_GET_STATUS ) {
-            // Send one byte to the USB host.
-
-            //static uchar dataBuffer[1];     // buffer must stay valid when usbFunctionSetup returns
-            //usbMsgPtr = 0;         // tell the driver which data to return
-            //return 1;                       // tell the driver to send 1 byte
-
-            //return 0;                       // tell the driver to send 0 byte
         }
-    //} else {
-        /* class requests USBRQ_HID_GET_REPORT and USBRQ_HID_SET_REPORT are
-         * not implemented since we never call them. The operating system
-         * won't call them either because our descriptor defines no meaning.
-         */
     }
     return 0;   /* default for not implemented requests: return no data back to host */
 }
@@ -59,44 +45,22 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
 
 void init_usb(void)
 {
-    uchar i;
+
+    uint8_t i, j, k;
 
     usbInit();
     usbDeviceDisconnect();  /* enforce re-enumeration, do this while interrupts are disabled! */
 
     i = 0;
+    j = 0;
+    k = 50;
     while(--i) {             /* fake USB disconnect for > 250 ms */
-        //wdt_reset();
-        _delay_ms(1);
-        //sleep_nop(255);
+        while(--k)
+            while(--j) { asm volatile("nop"::); }
     }
 
     usbDeviceConnect();
 
-    sei(); // enable global interrupts
-
 }
-
-/* TODO add to the projects main
-
-    init_usb();
-
-    // Even if you don't use the watchdog, turn it off here. On newer devices,
-    // the status of the watchdog (on/off, period) is PRESERVED OVER RESET!
-    //
-    // RESET status: all port bits are inputs without pull-up.
-    // That's the way we need D+ and D-. Therefore we don't need any
-    // additional hardware initialization.
-    wdt_enable(WDTO_1S);
-
-    ...mainloop start...
-
-        wdt_reset(); // we are alive, please dont reset the µC (optional)
-        usbPoll(); // keep the usb connection up
-
-    ...end mainloop...
-
-
-*/
 
 /* ------------------------------------------------------------------------- */

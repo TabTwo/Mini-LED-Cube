@@ -16,9 +16,7 @@
 #ifndef __REQUESTS_H_INCLUDED__
 #define __REQUESTS_H_INCLUDED__
 
-#define CUSTOM_RQ_SET_LED      1
-#define CUSTOM_RQ_SET_FRAME    2
-
-//#define CUSTOM_RQ_GET_STATUS    255
+#define CUSTOM_RQ_SET_LED             1
+#define CUSTOM_RQ_SET_FRAME           2
 
 #endif /* __REQUESTS_H_INCLUDED__ */
