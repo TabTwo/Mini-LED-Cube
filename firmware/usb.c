@@ -30,8 +30,8 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
                 cube = (cube & (uint32_t)0xffff0000) |
                         rq->wValue.bytes[0] +
                        (rq->wValue.bytes[1] << 8);
-            } else if ( rq->wIndex.bytes[0] == 1 )
-            {
+            //} else if ( rq->wIndex.bytes[0] == 1 )
+            } else {
                 cube = (cube & (uint32_t)0x0000ffff) |
                        ((uint32_t)(rq->wValue.bytes[0] +
                         (rq->wValue.bytes[1] << 8)) << 16);

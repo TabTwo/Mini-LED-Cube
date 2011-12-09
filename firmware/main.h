@@ -1,11 +1,12 @@
-//  Mini-LED-Cube 1.0
-//
-//  Copyright (C) 2009 Paul Wilhelm <paul@mosfetkiller.de>
-//  http://mosfetkiller.de/?s=miniledcube
-//
-//  Changed by Kai Lauterbach (klaute at web dot de)
-//
-//  Externes Quarz, CKDIV8 Disabled
+/*  CTHN.de MiniLEDCube
+ *
+ *  Kai Lauterbach (klaute at web dot de)
+ *
+ *  Based on http://mosfetkiller.de/?s=miniledcube
+ *
+ *  License: General Public License (GPL v3)
+ *
+ */
 
 #ifndef __main_h__
 #define __main_h__

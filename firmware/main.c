@@ -1,10 +1,11 @@
-/*
- *  Based on the code of the Mini-LED-Cube 1.0
+/*  CTHN.de MiniLEDCube
  *
- *  Copyright (C) 2009 Paul Wilhelm <paul@mosfetkiller.de>
- *  http: *mosfetkiller.de/?s=miniledcube
+ *  Kai Lauterbach (klaute at web dot de)
  *
- *  Changed by Kai Lauterbach (klaute at web dot de)
+ *  Based on http://mosfetkiller.de/?s=miniledcube
+ *
+ *  License: General Public License (GPL v3)
+ *
  */
 
 #include "main.h"
@@ -16,40 +17,11 @@ int main(void)
     init();
     init_usb();
 
-    //uint8_t anim = 0;
-
     // Hauptschleife
-    //while (1)
     for (;;)
     {
         //wdt_reset(); // we are alive, so don't reset the µC
         usbPoll(); // keep connected
-
-        // hier pause einfügen
-        //_delay_ms(1); // beispielsweise 50 ms => muss angepasst werden an usb kommunikation
-
-        /*anim++;
-
-        if (anim >= 0)
-        {
-            if (cube == 0xffffffff)
-                cube = 0x07007007;
-            else if (cube == 0x07007007)
-                cube = 0x00000000;
-            else if (cube == 0x00000000)
-                cube = 0xffffffff;
-
-			anim = 0;
-        }*/
-        /*if (anim >= 40)
-        {
-			cube += 1;
-
-			if (cube > 0x07ffffff)
-				cube = 0;
-
-			anim = 0;
-        }*/
 
     }
 }
@@ -86,7 +58,6 @@ void init()
 }
 
 // Interruptvektor von TIMER1
-//SIGNAL(SIG_OUTPUT_COMPARE1A) // alte schreibweise
 ISR (TIMER1_COMPA_vect)
 {
 
