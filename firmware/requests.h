@@ -18,5 +18,8 @@
 
 #define CUSTOM_RQ_SET_LED             1
 #define CUSTOM_RQ_SET_FRAME           2
+#define CUSTOM_RQ_SET_EEPROM          3
+#define CUSTOM_RQ_GET_EEPROM          4
+#define CUSTOM_RQ_LOAD_EEPROM         5
 
 #endif /* __REQUESTS_H_INCLUDED__ */

@@ -10,6 +10,12 @@
 #ifndef __usb_h__
 #define __usb_h__
 
+#include <avr/eeprom.h>
+
+#ifndef EEMEM
+#define EEMEM  __attribute__ ((section (".eeprom")))
+#endif
+
 #include "globals.h"
 
 /*
@@ -49,8 +55,10 @@ PROGMEM char usbHidReportDescriptor[22] = {    /* USB report descriptor */
 
 void init_usb(void);
 
+uint32_t eep_anim[32] EEMEM;
+
 // usb buffer
-extern volatile uint32_t cube; // Framebuffer
+extern uint32_t cube; // Framebuffer
 
 #endif // __usb_h__
 

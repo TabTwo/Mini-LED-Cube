@@ -16,11 +16,10 @@
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
-
 // Cube-Data
 uint32_t cube = 0xffffffff;
 // Bit Offset in Cube-Data
-uint8_t cube_level; // = 0; // Ebene
+uint8_t cube_level; // Aktive Ebene
 
 // Prototypen
 void init(void);

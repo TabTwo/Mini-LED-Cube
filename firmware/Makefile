@@ -108,28 +108,30 @@ CINCS  = -Iusbdrv
 #  -Wall...:     warning level
 #  -Wa,...:      tell GCC to pass this to the assembler.
 #    -adhlns...: create assembler listing
-CFLAGS = #-g$(DEBUG)
-CFLAGS += $(CDEFS) $(CINCS)
-CFLAGS += -O$(OPT)
 #CFLAGS += -funsigned-char
 #CFLAGS += -funsigned-bitfields
 #CFLAGS += -fpack-struct
 #CFLAGS += -fshort-enums
 #CFLAGS += -fno-split-wide-types
-CFLAGS += -fno-move-loop-invariants
-CFLAGS += -fno-tree-scev-cprop
 #CFLAGS += -fno-inline-small-functions
 #CFLAGS += -fno-tree-loop-optimize
 #CFLAGS += -mcall-prologues
 #CFLAGS += -mtiny-stack
 #CFLAGS += -mint8
+#CFLAGS += -fdata-sections
+#CFLAGS = -g$(DEBUG)
+
+CFLAGS += -fno-move-loop-invariants
+CFLAGS += -fno-tree-scev-cprop
+CFLAGS += -ffunction-sections
+
+CFLAGS += $(CDEFS) $(CINCS)
+CFLAGS += -O$(OPT)
 CFLAGS += -Wall -Wstrict-prototypes
 CFLAGS += -Wa,-adhlns=$(<:.c=.lst)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += $(CSTANDARD)
 CFLAGS += -DF_CPU=$(F_CPU)
-CFLAGS += -ffunction-sections
-#CFLAGS += -fdata-sections
 CFLAGS += -Wl,--gc-sections
 
 
