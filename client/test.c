@@ -69,7 +69,9 @@ int main(int argc, char **argv)
 
     //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_EEPROM, 0, 0, buffer, 0, 300);
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_LOAD_EEPROM, 0, 1, buffer, 0, 300);
-    sleep(2);
+    sleep(1);
+    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_LOAD_EEPROM, 0, 0, buffer, 0, 300);
+    sleep(1);
 
     // int usb_control_msg(usb_dev_handle *dev, int requesttype, int request, int value, int index, char *bytes, int size, int timeout);
     // 32 bit in 2 transmission
@@ -79,7 +81,7 @@ int main(int argc, char **argv)
 
     // bitwise set/get
     //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0, 25, buffer, 0, 5000);
-    sleep(2);
+    sleep(1);
 
     int i = 0;
     for (i = 0; i < 27; i++)
