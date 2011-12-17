@@ -18,6 +18,11 @@ main()
     init();
     init_usb();
 
+    //cube_t c;
+    //cube = &c;
+    frame = 0x07ffffff;
+    //cube->level = 0x00;
+
     // Hauptschleife
     for (;;)
     {
@@ -62,19 +67,19 @@ ISR (TIMER1_COMPA_vect)
 
 	// PORTD = __, 9, C, B, A,D+,D-,__
     PORTD &= 0b10000111; // 7tes Bit löschen (Leitung 9) und alle Ebenen deaktivieren
-    PORTD |= (1 << 6) | ((1 << cube_level) << 3); // cube_level setzen (Ebene A=0, B=1, C=2)
+    PORTD |= (1 << 6) | ((1 << level) << 3); // level setzen (Ebene A=0, B=1, C=2)
 
-    uint32_t tmp = cube_level * 9;
+    uint8_t tmp = level * 9;
 
     // PORTB = 1..8
     // 0 = leuchtet, 1 = leuchtet nicht (invertiert!)
-    PORTB = ~((cube >> tmp) & 0xff);
+    PORTB = ~((frame >> tmp) & 0xff);
 
-    if ( (((cube >> tmp) >> 8) & 0x01) )
+    if ( (((frame >> tmp) >> 8) & 0x01) )
         PORTD &= ~(1 << 6); // 9. led setzen falls notwendig
 
-    cube_level++;
-    if (cube_level > 2) cube_level = 0;
+    level++;
+    if (level > 2) level = 0;
 
 }
 

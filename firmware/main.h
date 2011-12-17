@@ -14,12 +14,17 @@
 // Includes
 #include "globals.h"
 
+#include "type.h"
+
 #include <avr/interrupt.h>
 #include <avr/io.h>
+
 // Cube-Data
-uint32_t cube = 0xffffffff;
+uint32_t frame = 0xffffffff;
 // Bit Offset in Cube-Data
-uint8_t cube_level; // Aktive Ebene
+uint8_t level; // Aktive Ebene
+
+//cube_t *cube;
 
 // Prototypen
 void init(void);

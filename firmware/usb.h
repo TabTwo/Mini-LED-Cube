@@ -18,6 +18,8 @@
 
 #include "globals.h"
 
+#include "type.h"
+
 /*
 This example should run on most AVRs with only little changes. No special
 hardware resources except INT0 are used. You may have to change usbconfig.h for
@@ -58,7 +60,9 @@ void init_usb(void);
 uint32_t eep_anim[32] EEMEM;
 
 // usb buffer
-extern uint32_t cube; // Framebuffer
+extern uint32_t frame; // Framebuffer
+
+//extern cube_t *cube;
 
 #endif // __usb_h__
 

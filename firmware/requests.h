@@ -16,10 +16,11 @@
 #ifndef __REQUESTS_H_INCLUDED__
 #define __REQUESTS_H_INCLUDED__
 
-#define CUSTOM_RQ_SET_LED             1
-#define CUSTOM_RQ_SET_FRAME           2
-#define CUSTOM_RQ_SET_EEPROM          3
-#define CUSTOM_RQ_GET_EEPROM          4
-#define CUSTOM_RQ_LOAD_EEPROM         5
+#define CUSTOM_RQ_SET_FRAME           1
+#define CUSTOM_RQ_EEPROM_STORE_FRAME  2
+#define CUSTOM_RQ_EEPROM_SET_FRAME    3
+#define CUSTOM_RQ_LOOP_ANIMATION      4
+#define CUSTOM_RQ_START_ANIMATION     5
+#define CUSTOM_RQ_STOP_ANIMATION      6
 
 #endif /* __REQUESTS_H_INCLUDED__ */
