@@ -14,7 +14,7 @@
 // Includes
 #include "globals.h"
 
-#include "type.h"
+//#include "type.h"
 
 #include <avr/interrupt.h>
 #include <avr/io.h>

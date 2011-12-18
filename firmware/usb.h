@@ -18,7 +18,7 @@
 
 #include "globals.h"
 
-#include "type.h"
+//#include "type.h"
 
 /*
 This example should run on most AVRs with only little changes. No special
