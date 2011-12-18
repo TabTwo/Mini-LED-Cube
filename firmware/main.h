@@ -27,6 +27,7 @@ uint8_t level; // Aktive Ebene
 uint8_t mode;
 uint8_t frmnum;
 uint8_t delay;
+uint8_t delay_max;
 
 //cube_t *cube;
 uint32_t eep_anim[32] EEMEM;
@@ -37,7 +38,7 @@ void init(void);
 extern void init_usb(void);
 extern void usbPoll(void);
 
-void setFrame(uint8_t);
+void loadEEPROMFrame(uint8_t);
 
 #endif // __main_h__
 

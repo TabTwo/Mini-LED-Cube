@@ -33,11 +33,9 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
         } else if ( rq->bRequest == CUSTOM_RQ_EEPROM_STORE_FRAME )
         {
             eeprom_write_dword( &eep_anim[ rq->wIndex.bytes[0] ], frame );
-
-        /*} else if ( rq->bRequest == CUSTOM_RQ_EEPROM_SET_FRAME )
+        } else if ( rq->bRequest == CUSTOM_RQ_SET_DELAY )
         {
-            //frame = eeprom_read_dword( &eep_anim[rq->wIndex.bytes[0]] );
-            setFrame( &eep_anim[rq->wIndex.bytes[0]] );*/
+            delay_max = rq->wValue.bytes[0];
         } else if ( rq->bRequest == CUSTOM_RQ_SET_MODE )
         {
             mode = rq->wValue.bytes[0]; // 0 = stop; 1 = single; 2 = loop

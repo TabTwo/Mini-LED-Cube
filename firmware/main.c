@@ -18,7 +18,8 @@ main()
     init();
     init_usb();
 
-    frame = 0x07ffffff;
+    //frame = 0x07ffffff;
+    mode = 2;
 
     // Hauptschleife
     for (;;)
@@ -31,11 +32,11 @@ main()
 void init()
 {
     // Ports vorbereiten
-    DDRB  =    0b11111111;    // PB0-PB7: LED 1-8 (Kathoden)
-    PORTB =    0b11111111;    // HIGH
+    DDRB  = 0b11111111;    // PB0-PB7: LED 1-8 (Kathoden)
+    PORTB = 0b11111111;    // HIGH
 
-    DDRD  =    0b01111000;    // PD6: LED 9 (Kathode); PD5-PD3: A-C (Anoden)
-    PORTD =    0b01000000;
+    DDRD  = 0b01111000;    // PD6: LED 9 (Kathode); PD5-PD3: A-C (Anoden)
+    PORTD = 0b01000000;
 
     // Timer-Interrupt "TIMER1" vorbereiten
 
@@ -67,14 +68,17 @@ ISR (TIMER1_COMPA_vect)
     {
         if (frmnum == 32)
         {
-            if (mode > 0)
-                frmnum = 0;
             if (mode == 1)
                 mode = 0;
-        } else
-            setFrame(frmnum);
-        if (mode)
-            frmnum++;
+            frmnum = 0;
+        } else {
+            if (mode)
+            {
+                loadEEPROMFrame(frmnum);
+                frmnum++;
+            }
+        }
+        delay = delay_max;
     }
 
 	// PORTD = __, 9, C, B, A,D+,D-,__
@@ -95,7 +99,7 @@ ISR (TIMER1_COMPA_vect)
 
 }
 
-void setFrame(uint8_t f)
+void loadEEPROMFrame(uint8_t f)
 {
     frame = eeprom_read_dword( &eep_anim[f] );
 }

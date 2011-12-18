@@ -60,11 +60,12 @@ void init_usb(void);
 extern uint32_t eep_anim[32] EEMEM;
 
 // usb buffer
-extern uint32_t frame; // Framebuffer
-extern uint8_t   mode; // FW mode
+extern uint32_t     frame; // Framebuffer
+extern uint8_t  delay_max; // delay in ISR aufrufen
+extern uint8_t       mode; // FW mode
 
 //extern cube_t *cube;
-extern void setFrame(uint8_t f);
+extern void loadEEPROMFrame(uint8_t f);
 
 #endif // __usb_h__
 
