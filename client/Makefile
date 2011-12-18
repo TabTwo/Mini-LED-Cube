@@ -28,7 +28,7 @@ OBJECTS = opendevice.o $(NAME).o
 
 CC		= gcc
 CFLAGS	= $(CPPFLAGS) $(USBFLAGS) -O -g -Wall
-LIBS	= $(USBLIBS)
+LIBS	= $(USBLIBS) -lm
 
 PROGRAM = $(NAME)$(EXE_SUFFIX)
 

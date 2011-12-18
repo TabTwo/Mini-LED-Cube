@@ -21,7 +21,9 @@ respectively.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <usb.h>        /* this is libusb */
+
 #include "opendevice.h" /* common code moved to separate module */
 
 #include "../firmware/requests.h"   /* custom request numbers */
@@ -75,42 +77,70 @@ int main(int argc, char **argv)
 
     // int usb_control_msg(usb_dev_handle *dev, int requesttype, int request, int value, int index, char *bytes, int size, int timeout);
     // 32 bit in 2 transmission
+    //printf("clear\n");
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0x0000, 0, buffer, 0, 300);
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0x0000, 1, buffer, 0, 300);
 
-    sleep(1);
+    //sleep(1);
 
+    //printf("test 1\n");
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0x7347, 0, buffer, 0, 300);
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0x0712, 1, buffer, 0, 300);
 
-    sleep(1);
+    //sleep(1);
 
+    //printf("test 2\n");
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0x7007, 0, buffer, 0, 300);
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0x0700, 1, buffer, 0, 300);
 
-    sleep(1);
+    //sleep(1);
 
+    //printf("full\n");
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0xffff, 0, buffer, 0, 300);
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0x07ff, 1, buffer, 0, 300);
 
-    sleep(1);
-
-    // bitwise set/get
-    //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_STATUS, 0, 25, buffer, 0, 5000);
     //sleep(1);
+    int low_last  = 0;
+    int high_last = 0;
+int j = 0xffff;
+while (--j)
+{
 
-    /*int i = 0;
-    for (i = 0; i < 27; i++)
+    int i = 0;
+    for (i = 0; i < 360; i++)
+//    for (i = 79; i < 90; i++)
     {
-        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_LED, 1, i, buffer, 0, 300);
-        usleep(100000);
+        // 2 = 27
+        // 1 = 27 / 2
+        // n = 27 * n / 2
+        double d = cos((double)((6.28*i)/360)) + 1; // 6.28 = PI * 2
+        unsigned long tmp = (1 << (int)((27 * d) / 2));
+        int low  =  tmp & 0x0000ffff;
+        int high = (tmp & 0xffff0000) >> 16;
+
+        printf("%d\t%f\t%d\t%d\n", i, d, high, low);
+
+        if (low > 0 && low_last != low)
+        {
+            usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, low,  0, buffer, 0, 300);
+            if (high == 0)
+                usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0, 1, buffer, 0, 300);
+        }
+        if (high > 0 && high_last != high)
+        {
+            usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, high, 1, buffer, 0, 300);
+            if (low == 0)
+                usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0, 0, buffer, 0, 300);
+        }
+
+        high_last = high;
+        low_last = low;
+
+        usleep(2500);
     }
 
-    for (i = 26; i >= 0; i--)
-    {
-        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_LED, 0, i, buffer, 0, 300);
-        usleep(100000);
-    }*/
+}
+
 
     usb_close(handle);
     return 0;
