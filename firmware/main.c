@@ -18,10 +18,7 @@ main()
     init();
     init_usb();
 
-    //cube_t c;
-    //cube = &c;
     frame = 0x07ffffff;
-    //cube->level = 0x00;
 
     // Hauptschleife
     for (;;)
@@ -65,6 +62,21 @@ void init()
 ISR (TIMER1_COMPA_vect)
 {
 
+    delay--;
+    if ( !delay )
+    {
+        if (frmnum == 32)
+        {
+            if (mode > 0)
+                frmnum = 0;
+            if (mode == 1)
+                mode = 0;
+        } else
+            setFrame(frmnum);
+        if (mode)
+            frmnum++;
+    }
+
 	// PORTD = __, 9, C, B, A,D+,D-,__
     PORTD &= 0b10000111; // 7tes Bit löschen (Leitung 9) und alle Ebenen deaktivieren
     PORTD |= (1 << 6) | ((1 << level) << 3); // level setzen (Ebene A=0, B=1, C=2)
@@ -81,5 +93,10 @@ ISR (TIMER1_COMPA_vect)
     level++;
     if (level > 2) level = 0;
 
+}
+
+void setFrame(uint8_t f)
+{
+    frame = eeprom_read_dword( &eep_anim[f] );
 }
 

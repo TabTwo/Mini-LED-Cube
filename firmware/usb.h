@@ -57,12 +57,14 @@ PROGMEM char usbHidReportDescriptor[22] = {    /* USB report descriptor */
 
 void init_usb(void);
 
-uint32_t eep_anim[32] EEMEM;
+extern uint32_t eep_anim[32] EEMEM;
 
 // usb buffer
 extern uint32_t frame; // Framebuffer
+extern uint8_t   mode; // FW mode
 
 //extern cube_t *cube;
+extern void setFrame(uint8_t f);
 
 #endif // __usb_h__
 
