@@ -46,8 +46,13 @@ uchar       usbCurrentDataToken;/* when we check data toggling to ignore duplica
 
 /* USB status registers / not shared with asm code */
 uchar               *usbMsgPtr;     /* data to transmit next -- ROM or RAM address */
+
 static usbMsgLen_t  usbMsgLen = USB_NO_MSG; /* remaining number of bytes */
+#ifdef USB_CFG_USE_GPIOR
+# define usbMsgFlags (*((uchar*)&GPIOR0))
+#else
 static uchar        usbMsgFlags;    /* flag values see below */
+#endif
 
 #define USB_FLG_MSGPTR_IS_ROM   (1<<6)
 #define USB_FLG_USE_USER_RW     (1<<7)
@@ -193,16 +198,6 @@ PROGMEM char usbDescriptorConfiguration[] = {    /* USB configuration descriptor
 #endif
 
 /* ------------------------------------------------------------------------- */
-
-static inline void  usbResetDataToggling(void)
-{
-#if USB_CFG_HAVE_INTRIN_ENDPOINT && !USB_CFG_SUPPRESS_INTR_CODE
-    USB_SET_DATATOKEN1(USB_INITIAL_DATATOKEN);  /* reset data toggling for interrupt endpoint */
-#   if USB_CFG_HAVE_INTRIN_ENDPOINT3
-    USB_SET_DATATOKEN3(USB_INITIAL_DATATOKEN);  /* reset data toggling for interrupt endpoint */
-#   endif
-#endif
-}
 
 static inline void  usbResetStall(void)
 {
@@ -547,9 +542,9 @@ uchar       len;
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef USB_RESET_HOOK
 static inline void usbHandleResetHook(uchar notResetState)
 {
-#ifdef USB_RESET_HOOK
 static uchar    wasReset;
 uchar           isReset = !notResetState;
 
@@ -557,8 +552,8 @@ uchar           isReset = !notResetState;
         USB_RESET_HOOK(isReset);
         wasReset = isReset;
     }
-#endif
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -591,35 +586,22 @@ uchar   i;
     for(i = 20; i > 0; i--){
         uchar usbLineStatus = USBIN & USBMASK;
         if(usbLineStatus != 0)  /* SE0 has ended */
+#ifdef USB_RESET_HOOK
             goto isNotReset;
+#else
+            return;
+#endif
     }
     /* RESET condition, called multiple times during reset */
     usbNewDeviceAddr = 0;
     usbDeviceAddr = 0;
     usbResetStall();
     DBG1(0xff, 0, 0);
+#ifdef USB_RESET_HOOK
 isNotReset:
     usbHandleResetHook(i);
-}
-
-/* ------------------------------------------------------------------------- */
-
-USB_PUBLIC void usbInit(void)
-{
-#if USB_INTR_CFG_SET != 0
-    USB_INTR_CFG |= USB_INTR_CFG_SET;
-#endif
-#if USB_INTR_CFG_CLR != 0
-    USB_INTR_CFG &= ~(USB_INTR_CFG_CLR);
-#endif
-    USB_INTR_ENABLE |= (1 << USB_INTR_ENABLE_BIT);
-    usbResetDataToggling();
-#if USB_CFG_HAVE_INTRIN_ENDPOINT && !USB_CFG_SUPPRESS_INTR_CODE
-    usbTxLen1 = USBPID_NAK;
-#if USB_CFG_HAVE_INTRIN_ENDPOINT3
-    usbTxLen3 = USBPID_NAK;
-#endif
 #endif
 }
 
 /* ------------------------------------------------------------------------- */
+

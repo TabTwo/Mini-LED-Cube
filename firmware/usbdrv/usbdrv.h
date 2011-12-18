@@ -165,12 +165,6 @@ USB messages, even if they address another (low-speed) device on the same bus.
 
 struct usbRequest;  /* forward declaration */
 
-USB_PUBLIC void usbInit(void);
-/* This function must be called before interrupts are enabled and the main
- * loop is entered. We exepct that the PORT and DDR bits for D+ and D- have
- * not been changed from their default status (which is 0). If you have changed
- * them, set both back to 0 (configure them as input with no internal pull-up).
- */
 USB_PUBLIC void usbPoll(void);
 /* This function must be called at regular intervals from the main loop.
  * Maximum delay between calls is somewhat less than 50ms (USB timeout for
@@ -731,5 +725,41 @@ typedef struct usbRequest{
 #define USBRQ_HID_SET_PROTOCOL  0x0b
 
 /* ------------------------------------------------------------------------- */
+
+#ifndef __ASSEMBLER__
+
+static inline void  usbResetDataToggling(void)
+{
+#if USB_CFG_HAVE_INTRIN_ENDPOINT && !USB_CFG_SUPPRESS_INTR_CODE
+    USB_SET_DATATOKEN1(USB_INITIAL_DATATOKEN);  /* reset data toggling for interrupt endpoint */
+#   if USB_CFG_HAVE_INTRIN_ENDPOINT3
+    USB_SET_DATATOKEN3(USB_INITIAL_DATATOKEN);  /* reset data toggling for interrupt endpoint */
+#   endif
+#endif
+}
+
+static inline void usbInit(void)
+{
+#if USB_INTR_CFG_SET != 0
+    USB_INTR_CFG |= USB_INTR_CFG_SET;
+#endif
+#if USB_INTR_CFG_CLR != 0
+    USB_INTR_CFG &= ~(USB_INTR_CFG_CLR);
+#endif
+    USB_INTR_ENABLE |= (1 << USB_INTR_ENABLE_BIT);
+    usbResetDataToggling();
+#if USB_CFG_HAVE_INTRIN_ENDPOINT && !USB_CFG_SUPPRESS_INTR_CODE
+    usbTxLen1 = USBPID_NAK;
+#if USB_CFG_HAVE_INTRIN_ENDPOINT3
+    usbTxLen3 = USBPID_NAK;
+#endif
+#endif
+}
+/* This function must be called before interrupts are enabled and the main
+ * loop is entered. We exepct that the PORT and DDR bits for D+ and D- have
+ * not been changed from their default status (which is 0). If you have changed
+ * them, set both back to 0 (configure them as input with no internal pull-up).
+ */
+#endif /* __ASSEMBLER */
 
 #endif /* __usbdrv_h_included__ */

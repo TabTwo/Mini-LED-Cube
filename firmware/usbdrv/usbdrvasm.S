@@ -368,6 +368,10 @@ usbMFTimeout:
 #   endif
 #endif
 
+/* place the interrupt routine in .vectors, after the jump to __init.
+	Warning: This depends on correct linking order. Link crt0 before usbdrasm! */
+.section .vectors
+
 #if USB_CFG_CHECK_CRC   /* separate dispatcher for CRC type modules */
 #   if USB_CFG_CLOCK_KHZ == 18000
 #       include "usbdrvasm18-crc.inc"
