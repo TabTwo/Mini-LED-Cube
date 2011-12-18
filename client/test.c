@@ -29,13 +29,97 @@ respectively.
 #include "../firmware/requests.h"   /* custom request numbers */
 #include "../firmware/usbconfig.h"  /* device's VID/PID and names */
 
+usb_dev_handle      *handle = NULL;
+const unsigned char rawVid[2] = {USB_CFG_VENDOR_ID}, rawPid[2] = {USB_CFG_DEVICE_ID};
+char                vendor[] = {USB_CFG_VENDOR_NAME, 0}, product[] = {USB_CFG_DEVICE_NAME, 0};
+char                buffer[4];
+int                 vid, pid;
+
+void eeprom1()
+{
+
+    unsigned long buf = 0;
+    int tmp = 0;
+    int tmp2 = 26;
+    for (tmp = 0; tmp < 32; tmp++)
+    {
+        if (tmp < 27)
+            buf = (1 << tmp);
+        else
+        {
+            tmp2--;
+            buf = (1 << tmp2);
+        }
+
+        int low  =  buf & 0x0000ffff;
+        int high = (buf & 0xffff0000) >> 16;
+
+        // set mode 0
+        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 0, 0, buffer, 0, 300);
+
+        // set the frame to save
+        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME,  low, 0, buffer, 0, 300);
+        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, high, 1, buffer, 0, 300);
+
+        // save to position tmp
+        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_EEPROM_STORE_FRAME, 0, tmp, buffer, 0, 300);
+
+        //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 1, 0, buffer, 0, 300);
+        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 2, 0, buffer, 0, 300);
+    }
+
+}
+
+void sinus1()
+{
+
+    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 0, 0, buffer, 0, 300);
+
+    int low_last = 0;
+    int high_last = 0;
+    int j = 0xf;
+    while (--j)
+    {
+
+        int i = 0;
+        for (i = 0; i < 360; i++)
+    //    for (i = 79; i < 90; i++)
+        {
+            // 2 = 27
+            // 1 = 27 / 2
+            // n = 27 * n / 2
+            double d = cos((double)((6.28*i)/360)) + 1; // 6.28 = PI * 2
+            unsigned long tmp = (1 << (int)((27 * d) / 2));
+            int low  =  tmp & 0x0000ffff;
+            int high = (tmp & 0xffff0000) >> 16;
+
+            printf("%d\t%f\t%d\t%d\n", i, d, high, low);
+
+            if (low > 0 && low_last != low)
+            {
+                usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, low,  0, buffer, 0, 300);
+                if (high == 0)
+                    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0, 1, buffer, 0, 300);
+            }
+            if (high > 0 && high_last != high)
+            {
+                usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, high, 1, buffer, 0, 300);
+                if (low == 0)
+                    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0, 0, buffer, 0, 300);
+            }
+
+            high_last = high;
+            low_last = low;
+
+            usleep(2500);
+        }
+
+    }
+
+}
+
 int main(int argc, char **argv)
 {
-	usb_dev_handle      *handle = NULL;
-	const unsigned char rawVid[2] = {USB_CFG_VENDOR_ID}, rawPid[2] = {USB_CFG_DEVICE_ID};
-	char                vendor[] = {USB_CFG_VENDOR_NAME, 0}, product[] = {USB_CFG_DEVICE_NAME, 0};
-	char                buffer[4];
-	int                 vid, pid;
 
     usb_init();
 
@@ -68,11 +152,12 @@ int main(int argc, char **argv)
 #endif
     }
 #endif
+    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 1, 0, buffer, 0, 300);
+    sleep(30);
 
     //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_EEPROM, 0, 0, buffer, 0, 300);
-    //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_EEPROM_SET_FRAME, 0, 1, buffer, 0, 300);
-    //sleep(1);
     //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_EEPROM_SET_FRAME, 0, 0, buffer, 0, 300);
+    //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_EEPROM_SET_FRAME, 0, 1, buffer, 0, 300);
     //sleep(1);
 
     // int usb_control_msg(usb_dev_handle *dev, int requesttype, int request, int value, int index, char *bytes, int size, int timeout);
@@ -100,48 +185,14 @@ int main(int argc, char **argv)
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0x07ff, 1, buffer, 0, 300);
 
     //sleep(1);
-    int low_last  = 0;
-    int high_last = 0;
-int j = 0xffff;
-while (--j)
-{
 
-    int i = 0;
-    for (i = 0; i < 360; i++)
-//    for (i = 79; i < 90; i++)
-    {
-        // 2 = 27
-        // 1 = 27 / 2
-        // n = 27 * n / 2
-        double d = cos((double)((6.28*i)/360)) + 1; // 6.28 = PI * 2
-        unsigned long tmp = (1 << (int)((27 * d) / 2));
-        int low  =  tmp & 0x0000ffff;
-        int high = (tmp & 0xffff0000) >> 16;
+    eeprom1();
+    sleep(60);
+    sinus1();
 
-        printf("%d\t%f\t%d\t%d\n", i, d, high, low);
-
-        if (low > 0 && low_last != low)
-        {
-            usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, low,  0, buffer, 0, 300);
-            if (high == 0)
-                usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0, 1, buffer, 0, 300);
-        }
-        if (high > 0 && high_last != high)
-        {
-            usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, high, 1, buffer, 0, 300);
-            if (low == 0)
-                usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0, 0, buffer, 0, 300);
-        }
-
-        high_last = high;
-        low_last = low;
-
-        usleep(2500);
-    }
-
-}
-
+    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 1, 0, buffer, 0, 300);
 
     usb_close(handle);
     return 0;
 }
+
