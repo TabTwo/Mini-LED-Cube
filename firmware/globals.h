@@ -8,7 +8,10 @@
 
 #define F_CPU 12000000UL
 
-// Bitshifting
-#define    set_bit(var, bit)    ((var) |= (1 << (bit)))
-#define    clear_bit(var, bit)  ((var) &= (unsigned)~(1 << (bit)))
+#define MODE_ANIMATION_STOP   0
+#define MODE_ANIMATION_SINGLE 1
+#define MODE_ANIMATION_LOOP   2
+
+#define MAX_EEPROM_FRAMES 32
+#define STARTUP_DELAY_MAX 10
 
