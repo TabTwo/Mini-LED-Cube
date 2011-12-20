@@ -1,10 +1,13 @@
-/* Name: usb.h by Kai Lauterbach
- * Based on Project: hid-custom-rq example
- * Revision: $Id: main.c 790 2010-05-30 21:00:26Z cs $
- * Author: Christian Starkjohann
- * Copyright: (c) 2008 by OBJECTIVE DEVELOPMENT Software GmbH
- * License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
- * This 
+/* 
+ * CTHN.de MiniLEDCube
+ *
+ *  usb.c by Kai Lauterbach 11/2011
+ *
+ *  Based on project: hid-custom-rq example by Christian Starkjohann
+ *  Copyright: (c) 2008 by OBJECTIVE DEVELOPMENT Software GmbH
+ *
+ *  License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
+ *
  */
 
 #ifndef __usb_h__
@@ -17,17 +20,6 @@
 #endif
 
 #include "globals.h"
-
-//#include "type.h"
-
-/*
-This example should run on most AVRs with only little changes. No special
-hardware resources except INT0 are used. You may have to change usbconfig.h for
-different I/O pins for USB. Please note that USB D+ must be the INT0 pin, or
-at least be connected to INT0 as well.
-We assume that an LED is connected to port B bit 0. If you connect it to a
-different port or bit, change the macros below:
-*/
 
 #include "usbconfig.h"
 #include "usbdrv.h"
@@ -57,7 +49,7 @@ PROGMEM char usbHidReportDescriptor[22] = {    /* USB report descriptor */
 
 void init_usb(void);
 
-extern uint32_t eep_anim[32] EEMEM;
+extern uint32_t eep_anim[MAX_EEPROM_FRAMES] EEMEM;
 
 // usb buffer
 extern uint32_t     frame; // Framebuffer
@@ -65,7 +57,7 @@ extern uint8_t  delay_max; // delay in ISR aufrufen
 extern uint8_t       mode; // FW mode
 
 //extern cube_t *cube;
-extern void loadEEPROMFrame(uint8_t f);
+extern void loadEEPROMFrame(uint8_t);
 
 #endif // __usb_h__
 

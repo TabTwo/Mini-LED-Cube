@@ -1,6 +1,6 @@
 /*  CTHN.de MiniLEDCube
  *
- *  Kai Lauterbach (klaute at web dot de)
+ *  By Kai Lauterbach (klaute at web dot de) 11/2011
  *
  *  License: General Public License (GPL v3)
  *

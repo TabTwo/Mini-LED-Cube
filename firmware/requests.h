@@ -1,11 +1,13 @@
-/* Name: requests.h
- * Project: custom-class, a basic USB example
- * Author: Christian Starkjohann
- * Creation Date: 2008-04-09
- * Tabsize: 4
- * Copyright: (c) 2008 by OBJECTIVE DEVELOPMENT Software GmbH
- * License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
- * This Revision: $Id: requests.h 692 2008-11-07 15:07:40Z cs $
+/* 
+ * CTHN.de MiniLEDCube
+ *
+ *  requests.h by Kai Lauterbach
+ *
+ *  Based on project: hid-custom-rq example by Christian Starkjohann
+ *  Copyright: (c) 2008 by OBJECTIVE DEVELOPMENT Software GmbH
+ *
+ *  License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
+ *
  */
 
 /* This header is shared between the firmware and the host software. It
@@ -18,8 +20,7 @@
 
 #define CUSTOM_RQ_SET_FRAME           1
 #define CUSTOM_RQ_EEPROM_STORE_FRAME  2
-#define CUSTOM_RQ_EEPROM_SET_FRAME    3
-#define CUSTOM_RQ_SET_MODE            4
-#define CUSTOM_RQ_SET_DELAY           5
+#define CUSTOM_RQ_SET_MODE            3
+#define CUSTOM_RQ_SET_DELAY           4
 
 #endif /* __REQUESTS_H_INCLUDED__ */
