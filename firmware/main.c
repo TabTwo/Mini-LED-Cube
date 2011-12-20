@@ -19,7 +19,6 @@ main()
     init();
     init_usb();
 
-
     // Hauptschleife
     for (;;)
     {
