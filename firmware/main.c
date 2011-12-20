@@ -56,8 +56,8 @@ void init()
 ISR (TIMER1_COMPA_vect)
 {
 
-    delay--; // decrease the delay counter
-    if ( !delay ) // check if we are done with waiting
+    //delay--; // decrease the delay counter
+    if ( !(--delay) ) // check if we are done with waiting
     {
         if (frmnum == MAX_EEPROM_FRAMES)
         {
@@ -69,11 +69,11 @@ ISR (TIMER1_COMPA_vect)
             {
                 // if we are in an animation mode we have to load a frame out of the eeprom
                 // and increase the counter
-                loadEEPROMFrame(frmnum);
+                frame = eeprom_read_dword( &eep_anim[frmnum] );
                 frmnum++;
             }
         }
-        delay = delay_max; // start counting from the top of the maximum delay
+        delay = (frame & 0xf8000000) >> 24; // Just shift right by 24 instead of 27 to multiply the delay by 8.
     }
 
 	// PORTD = __, 9, C, B, A,D+,D-,__
@@ -93,13 +93,5 @@ ISR (TIMER1_COMPA_vect)
     level++;
     if (level > 2) level = 0;
 
-}
-
-/**
- * Simple function to load a single frame out of the EEPROM.
- */
-void loadEEPROMFrame(uint8_t f)
-{
-    frame = eeprom_read_dword( &eep_anim[f] );
 }
 

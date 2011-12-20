@@ -43,11 +43,7 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
             // save the actual frame to the eeprom
             // don't forget to send a frame first
             eeprom_write_dword( &eep_anim[ rq->wIndex.bytes[0] ], frame );
-        } else if ( rq->bRequest == CUSTOM_RQ_SET_DELAY )
-        {
-            // set the maximum delay between two frames
-            // as a multiply of ISR calls
-            delay_max = rq->wValue.bytes[0];
+
         } else if ( rq->bRequest == CUSTOM_RQ_SET_MODE )
         {
             // set the firmware mode

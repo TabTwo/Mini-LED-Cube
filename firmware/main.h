@@ -26,14 +26,12 @@ uint8_t level; // current layer
 uint8_t mode = MODE_ANIMATION_LOOP; // firmware mode
 uint8_t frmnum; // frame nummber in the animation loop
 uint8_t delay; // delay in ISR calls between changing to the next animation frame
-uint8_t delay_max = STARTUP_DELAY_MAX; // maximum delay between the animation frames
 
 // eeprom array of the animation
 uint32_t eep_anim[MAX_EEPROM_FRAMES] EEMEM;
 
 // function prototypes
 void init(void);
-void loadEEPROMFrame(uint8_t);
 
 extern void init_usb(void);
 extern void usbPoll(void);

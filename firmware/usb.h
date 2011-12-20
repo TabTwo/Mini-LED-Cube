@@ -41,23 +41,15 @@ PROGMEM char usbHidReportDescriptor[22] = {    /* USB report descriptor */
     0xb2, 0x02, 0x01,              //   FEATURE (Data,Var,Abs,Buf)
     0xc0                           // END_COLLECTION
 };
-/* The descriptor above is a dummy only, it silences the drivers. The report
- * it describes consists of one byte of undefined data.
- * We don't transfer our data through HID reports, we use custom requests
- * instead.
- */
 
 void init_usb(void);
 
+//extern uint8_t eep_delay_max EEMEM;
 extern uint32_t eep_anim[MAX_EEPROM_FRAMES] EEMEM;
 
 // usb buffer
 extern uint32_t     frame; // Framebuffer
-extern uint8_t  delay_max; // delay in ISR aufrufen
 extern uint8_t       mode; // FW mode
-
-//extern cube_t *cube;
-extern void loadEEPROMFrame(uint8_t);
 
 #endif // __usb_h__
 

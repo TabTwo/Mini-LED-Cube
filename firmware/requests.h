@@ -21,6 +21,5 @@
 #define CUSTOM_RQ_SET_FRAME           1
 #define CUSTOM_RQ_EEPROM_STORE_FRAME  2
 #define CUSTOM_RQ_SET_MODE            3
-#define CUSTOM_RQ_SET_DELAY           4
 
 #endif /* __REQUESTS_H_INCLUDED__ */
