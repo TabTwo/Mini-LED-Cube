@@ -4,7 +4,7 @@
 void moveCameraPosition(float direction);
 void moveCameraAngle(float angle);
 
-void mouse(int button, int state, int x, int y);
+void mouse(int x, int y);
 
 #endif
 

@@ -12,6 +12,8 @@
 #include "input.h"
 #include "event_callbacks.c"
 
+// TODO: Refactor to GLib-Datatypes (page 747)
+
 // Materials
 float ledOnMaterial[] = {0.0, 0.0, 1.0, 1.0};
 float ledOffMaterial[] = {0.1, 0.1, 0.1, 0.0};
@@ -57,10 +59,10 @@ int main(int argc, char *argv[]) {
   // Configure the OpenGL widget
   glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_DOUBLE);
   if (glConfig == NULL) {
-    g_print("EEE Double buffer not available, trying single buffer.");
+    g_warning("EEE Double buffer not available, trying single buffer.");
     glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH);
     if (glConfig == NULL) {
-      g_print("EEE Sorry, can't configure the OpenGL window. Giving up.");
+      g_error("EEE Sorry, can't configure the OpenGL window. Giving up.");
       exit(1);
     }
   }

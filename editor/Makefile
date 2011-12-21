@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall
 LINKER_FLAGS=-lglut -export-dynamic
-GTKLIBS=`pkg-config --cflags --libs gtkglext-1.0 libglade-2.0 gmodule-export-2.0`
+GTKLIBS=`pkg-config --cflags --libs gtk+-2.0 gtkglext-1.0 libglade-2.0 gmodule-export-2.0`
 SRCDIR=src
 
 all:
@@ -16,5 +16,5 @@ all:
 clean:
 	rm -f *.o
 	rm -f gui
-	#rm -f ledcube-edit
+	rm -f ledcube-edit
 

@@ -13,7 +13,7 @@ void on_main_window_delete_event(GtkObject *object, gpointer userData) {
 
 gboolean on_drawing_area_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer data) {
   GdkGLContext *glContext = gtk_widget_get_gl_context(widget);
-  GdkGLDrawable *glDrawable =gtk_widget_get_gl_drawable(widget);
+  GdkGLDrawable *glDrawable = gtk_widget_get_gl_drawable(widget);
 
   if (!gdk_gl_drawable_gl_begin(glDrawable, glContext)) return FALSE;
 
@@ -25,26 +25,26 @@ gboolean on_drawing_area_configure_event(GtkWidget *widget, GdkEventConfigure *e
 
 gboolean on_drawing_area_expose_event(GtkWidget *widget, GdkEventExpose *event, gpointer data) {
   GdkGLContext *glContext = gtk_widget_get_gl_context(widget);
-  GdkGLDrawable *glDrawable =gtk_widget_get_gl_drawable(widget);
+  GdkGLDrawable *glDrawable = gtk_widget_get_gl_drawable(widget);
 
   if (!gdk_gl_drawable_gl_begin(glDrawable, glContext)) return FALSE;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  display();
+  display(FALSE);
 
   if (gdk_gl_drawable_is_double_buffered(glDrawable))
     gdk_gl_drawable_swap_buffers(glDrawable);
   else
     glFlush();
   gdk_gl_drawable_gl_end(glDrawable);
+
   return FALSE;
 }
 
 void on_drawing_area_realize(GtkWidget *widget, gpointer data) {
   GdkGLContext *glContext = gtk_widget_get_gl_context(widget);
-  GdkGLDrawable *glDrawable =gtk_widget_get_gl_drawable(widget);
+  GdkGLDrawable *glDrawable = gtk_widget_get_gl_drawable(widget);
   if (!gdk_gl_drawable_gl_begin(glDrawable, glContext)) return;
-
   gdk_gl_drawable_gl_end(glDrawable);
 }
 
@@ -64,6 +64,26 @@ void on_drawing_area_key_press_event(GtkWidget *widget, GdkEventKey *event) {
       break;
   }
 
+  gtk_widget_queue_draw_area(widget, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+}
+
+void on_drawing_area_button_press_event(GtkWidget *widget, gpointer data) {
+  gtk_widget_grab_focus(widget);
+
+  GdkGLContext *glContext = gtk_widget_get_gl_context(widget);
+  GdkGLDrawable *glDrawable =gtk_widget_get_gl_drawable(widget);
+
+  if (!gdk_gl_drawable_gl_begin(glDrawable, glContext)) return;
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+  gint x, y;
+  gtk_widget_get_pointer(widget, &x, &y);
+  
+  display(TRUE);
+  mouse(x, y);
+
+  gdk_gl_drawable_gl_end(glDrawable);
   gtk_widget_queue_draw_area(widget, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 

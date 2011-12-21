@@ -79,7 +79,7 @@ void setScene() {
 }
 
 // OpenGL Display function
-void display() {
+void display(gboolean onlyForPicking) {
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glShadeModel(GL_SMOOTH);
 
@@ -92,19 +92,18 @@ void display() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   setScene();
-  drawWires();
-  drawLEDs(RENDER_MODE);
-}
 
-// Picking function
-void displayPickingObjects() {
-  setScene();
-  glDisable(GL_DITHER);
-  glDisable(GL_LIGHTING);
+  if (onlyForPicking == TRUE) {
+    glDisable(GL_DITHER);
+    glDisable(GL_LIGHTING);
 
-  drawLEDs(PICKING_MODE);
+    drawLEDs(PICKING_MODE);
 
-  glEnable(GL_LIGHTING);
-  glEnable(GL_DITHER);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_DITHER);
+  } else {
+    drawWires();
+    drawLEDs(RENDER_MODE);
+  }
 }
 

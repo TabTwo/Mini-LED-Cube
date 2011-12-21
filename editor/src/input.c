@@ -23,23 +23,16 @@ void moveCameraAngle(float angle) {
   if (eyeAngle < 0) eyeAngle = 0;
 }
 
-void mouse(int button, int state, int x, int y) {
-  if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-    int position, viewport[4];
-    GLubyte pixel[3];
+void mouse(int x, int y) {
+  int position, viewport[4];
+  GLubyte pixel[3];
 
-    displayPickingObjects();
+  glGetIntegerv(GL_VIEWPORT, viewport);
+  glReadPixels(x, viewport[3]-y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, (void*)pixel);
+  position = ((int)pixel[2]/8)-1; // Selected LED
 
-    glGetIntegerv(GL_VIEWPORT, viewport);
-    glReadPixels(x, viewport[3]-y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, (void*)pixel);
-    position = ((int)pixel[2]/8)-1; // Selected LED
-
-    printf("%d\n", position);
-    currentFrame[position] = currentFrame[position] == 0 ? 1 : 0;
-    printf("%d\n", currentFrame[position]);
-
-    // FIXME: Redraw the gl-container
-    //display();
-  }
+  printf("%d\n", position);
+  currentFrame[position] = currentFrame[position] == 0 ? 1 : 0;
+  printf("%d\n", currentFrame[position]);
 }
 
