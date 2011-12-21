@@ -23,33 +23,6 @@ void moveCameraAngle(float angle) {
   if (eyeAngle < 0) eyeAngle = 0;
 }
 
-
-void keyboard(unsigned char key, int x, int y) {
-  switch (key) {
-    case 27: // ESC
-      exit(0);
-      break;
-  }
-  glutPostRedisplay();
-}
-
-void keyboard_special(int key, int x, int y) {
-  switch (key) {
-    case GLUT_KEY_LEFT:
-      moveCameraPosition(MOVE_SPEED);
-      break;
-    case GLUT_KEY_RIGHT:
-      moveCameraPosition(MOVE_SPEED*-1);
-      break;
-    case GLUT_KEY_UP:
-      moveCameraAngle(MOVE_SPEED);
-      break;
-    case GLUT_KEY_DOWN:
-      moveCameraAngle(MOVE_SPEED*-1);
-  }
-  glutPostRedisplay();
-}
-
 void mouse(int button, int state, int x, int y) {
   if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
     int position, viewport[4];

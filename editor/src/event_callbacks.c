@@ -1,8 +1,10 @@
 #include <gtk/gtk.h>
 #include <gtk/gtkgl.h>
 #include <GL/glut.h>
+#include <gdk/gdkkeysyms.h>
 
 #include "config.h"
+#include "input.h"
 #include "display.h"
 
 void on_main_window_delete_event(GtkObject *object, gpointer userData) {
@@ -46,7 +48,22 @@ void on_drawing_area_realize(GtkWidget *widget, gpointer data) {
   gdk_gl_drawable_gl_end(glDrawable);
 }
 
-void on_drawing_area_key_press_event(GtkWidget *widget, gpointer data) {
-  g_print("pressed");
+void on_drawing_area_key_press_event(GtkWidget *widget, GdkEventKey *event) {
+  switch (event->keyval) {
+    case GDK_KEY_Left:
+      moveCameraPosition(MOVE_SPEED);
+      break;
+    case GDK_KEY_Right:
+      moveCameraPosition(MOVE_SPEED*-1);
+      break;
+    case GDK_KEY_Up:
+      moveCameraAngle(MOVE_SPEED);
+      break;
+    case GDK_KEY_Down:
+      moveCameraAngle(MOVE_SPEED*-1);
+      break;
+  }
+
+  gtk_widget_queue_draw_area(widget, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 }
 

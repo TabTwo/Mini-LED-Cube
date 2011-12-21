@@ -66,13 +66,13 @@ int main(int argc, char *argv[]) {
   }
 
   xml = glade_xml_new("src/main_gui.glade", NULL, NULL);
-  glade_xml_signal_autoconnect(xml);
 
   window = glade_xml_get_widget(xml, "main_window");
   gtk_container_set_reallocate_redraws(GTK_CONTAINER(window), TRUE);
   drawingArea = glade_xml_get_widget(xml, "drawing_area");
   gtk_widget_set_gl_capability(drawingArea, glConfig, NULL, TRUE, GDK_GL_RGBA_TYPE);
 
+  glade_xml_signal_autoconnect(xml);
 
   gtk_widget_show(window);
   gtk_main();

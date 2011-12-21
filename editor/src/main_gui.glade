@@ -22,22 +22,11 @@
                     <property name="visible">True</property>
                     <property name="border_width">7</property>
                     <child>
-                      <widget class="GtkComboBoxEntry" id="combobox_port">
+                      <widget class="GtkLabel" id="connection_label">
                         <property name="visible">True</property>
+                        <property name="label" translatable="yes">LED Cube is not connected</property>
                       </widget>
                     </child>
-                  </widget>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="homogeneous">True</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkToolButton" id="button_connect">
-                    <property name="visible">True</property>
-                    <property name="label" translatable="yes">Connect to cube</property>
-                    <property name="use_underline">True</property>
-                    <property name="stock_id">gtk-connect</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -100,6 +89,8 @@
             <property name="width_request">500</property>
             <property name="height_request">500</property>
             <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="events">GDK_EXPOSURE_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK | GDK_FOCUS_CHANGE_MASK | GDK_STRUCTURE_MASK</property>
             <signal name="expose_event" handler="on_drawing_area_expose_event"/>
             <signal name="key_press_event" handler="on_drawing_area_key_press_event"/>
             <signal name="realize" handler="on_drawing_area_realize" after="yes"/>
