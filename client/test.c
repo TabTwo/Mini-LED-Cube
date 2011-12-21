@@ -26,6 +26,7 @@ respectively.
 
 #include "opendevice.h" /* common code moved to separate module */
 
+#include "../firmware/globals.h"   /* custom request numbers */
 #include "../firmware/requests.h"   /* custom request numbers */
 #include "../firmware/usbconfig.h"  /* device's VID/PID and names */
 
@@ -65,7 +66,7 @@ void eeprom1()
         usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, high, 1, buffer, 0, 300);
 
         // save to position tmp
-        usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_EEPROM_STORE_FRAME, 0, tmp, buffer, 0, 300);
+        //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_EEPROM_STORE_FRAME, 0, tmp, buffer, 0, 300);
 
         //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 1, 0, buffer, 0, 300);
         usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 2, 0, buffer, 0, 300);
@@ -73,17 +74,18 @@ void eeprom1()
 
 }
 
-void sinus1()
+void sinus1(int max)
 {
 
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 0, 0, buffer, 0, 300);
 
     int low_last = 0;
     int high_last = 0;
-    int j = 0xf;
+    int j = max;
     while (--j)
     {
 
+        //int j = 0;
         int i = 0;
         for (i = 0; i < 360; i++)
     //    for (i = 79; i < 90; i++)
@@ -111,10 +113,14 @@ void sinus1()
                     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_FRAME, 0, 0, buffer, 0, 300);
             }
 
+            // save the frame to eeprom
+            //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_EEPROM_STORE_FRAME, 0, j, buffer, 0, 300);
+
             high_last = high;
             low_last = low;
 
             usleep(2500);
+            //j++;
         }
 
     }
@@ -165,7 +171,7 @@ void demo()
     sleep(30);
 
     // animate with a sinus wave
-    sinus1();
+    sinus1(1);
 
     // start animation one time
     usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 1, 0, buffer, 0, 300);
@@ -207,6 +213,9 @@ int main(int argc, char **argv)
 #endif
     //usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 2, 0, buffer, 0, 300);
     demo();
+    //sinus1(255);
+    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, 2, 0, buffer, 0, 300);
+    usb_control_msg(handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_DELAY, 10, 0, buffer, 0, 300);
 
     usb_close(handle);
     return 0;

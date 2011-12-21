@@ -200,8 +200,8 @@ AVRDUDE_PROGRAMMER = dragon_isp
 # com1 = serial port. Use lpt1 to connect to parallel port.
 AVRDUDE_PORT = -P usb #-P com1    # programmer connected to serial device
 
-AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
-#AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
+AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex:i
+AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep:i
 
 
 # Uncomment the following if you want avrdude's erase cycle counter.
@@ -297,7 +297,7 @@ build: elf hex eep lss sym
 
 elf: $(TARGET).elf
 hex: $(TARGET).hex
-eep: $(TARGET).eep
+#eep: $(TARGET).eep
 lss: $(TARGET).lss 
 sym: $(TARGET).sym
 
@@ -371,11 +371,11 @@ extcoff: $(TARGET).elf
 	@echo $(MSG_FLASH) $@
 	$(OBJCOPY) -O $(FORMAT) -R .eeprom $< $@
 
-%.eep: %.elf
-	@echo
-	@echo $(MSG_EEPROM) $@
-	-$(OBJCOPY) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
-	--change-section-lma .eeprom=0 -O $(FORMAT) $< $@
+#%.eep: %.elf
+#	@echo
+#	@echo $(MSG_EEPROM) $@
+#	-$(OBJCOPY) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
+#	--change-section-lma .eeprom=0 -O $(FORMAT) $< $@
 
 # Create extended listing file from ELF output file.
 %.lss: %.elf
@@ -427,7 +427,7 @@ clean_list :
 	@echo
 	@echo $(MSG_CLEANING)
 	$(REMOVE) $(TARGET).hex
-	$(REMOVE) $(TARGET).eep
+	#$(REMOVE) $(TARGET).eep
 	$(REMOVE) $(TARGET).obj
 	$(REMOVE) $(TARGET).cof
 	$(REMOVE) $(TARGET).elf
