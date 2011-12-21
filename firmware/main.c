@@ -73,7 +73,11 @@ ISR (TIMER1_COMPA_vect)
                 frmnum++;
             }
         }
-        delay = (frame & 0xf8000000) >> 24; // Just shift right by 24 instead of 27 to multiply the delay by 8.
+        // Just shift right by 24 instead of 27 to multiply the delay by 8.
+        // Possible delays are 8 16 24 32 and so on. A zero delay isn't possible.
+        // Zero means that a delay of 255 happens because the delay variable was decreased first before testing
+        // it's is zero value.
+        delay = (frame & 0xf8000000) >> 24;
     }
 
 	// PORTD = __, 9, C, B, A,D+,D-,__
