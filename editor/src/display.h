@@ -4,8 +4,7 @@
 void drawLEDs(int mode);
 void drawWires();
 
-void display();
-void displayPickingObjects();
+void display(gboolean onlyForPicking);
 
 void setScene();
 

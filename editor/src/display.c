@@ -24,6 +24,7 @@ void drawLEDs(int mode) {
           glColor3ub(0, 0, ledIndex*8);
         } else {
           glMaterialfv(GL_FRONT, GL_AMBIENT, (currentFrame[ledIndex-1] == 1 ? ledOnMaterial : ledOffMaterial));
+          glMaterialfv(GL_FRONT, GL_DIFFUSE, (currentFrame[ledIndex-1] == 1 ? ledOnMaterial : ledOffMaterial));
         }
 
         glPushMatrix();
@@ -69,6 +70,7 @@ void drawWires() {
 }
 
 void setScene() {
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective(ZOOM_LEVEL, WINDOW_WIDTH/WINDOW_HEIGHT, 1.0, 350.0);
@@ -79,32 +81,27 @@ void setScene() {
 }
 
 // OpenGL Display function
-void display() {
+void display(gboolean onlyForPicking) {
   glClearColor(0.0, 0.0, 0.0, 1.0);
-  glShadeModel(GL_SMOOTH);
 
   glEnable(GL_LIGHTING);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_LIGHT0);
-  glLightfv(GL_LIGHT0, GL_POSITION, light0Pos);
   glLightfv(GL_LIGHT0, GL_AMBIENT, backgroundColor);
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
   setScene();
-  drawWires();
-  drawLEDs(RENDER_MODE);
-}
 
-// Picking function
-void displayPickingObjects() {
-  setScene();
-  glDisable(GL_DITHER);
-  glDisable(GL_LIGHTING);
+  if (onlyForPicking == TRUE) {
+    glDisable(GL_DITHER);
+    glDisable(GL_LIGHTING);
 
-  drawLEDs(PICKING_MODE);
+    drawLEDs(PICKING_MODE);
 
-  glEnable(GL_LIGHTING);
-  glEnable(GL_DITHER);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_DITHER);
+  } else {
+    drawLEDs(RENDER_MODE);
+    drawWires();
+  }
 }
 

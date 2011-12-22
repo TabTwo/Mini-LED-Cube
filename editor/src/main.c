@@ -12,11 +12,13 @@
 #include "input.h"
 #include "event_callbacks.c"
 
+// TODO: Refactor to GLib-Datatypes (page 747)
+
 // Materials
-float ledOnMaterial[] = {0.0, 0.0, 1.0, 1.0};
+float ledOnMaterial[] = {0.0, 0.0, 1.0, 0.4};
 float ledOffMaterial[] = {0.1, 0.1, 0.1, 0.0};
 float wireMaterial[] = {0.7, 0.7, 0.7, 1.0};
-float innerWireMaterial[] = {0.2, 0.2, 0.2, 0.3};
+float innerWireMaterial[] = {0.3, 0.3, 0.3, 0.3};
 
 // Colors
 float backgroundColor[] = {0.3, 0.3, 0.3, 0.4};
@@ -48,31 +50,35 @@ int main(int argc, char *argv[]) {
   gluQuadricNormals(quadric, GLU_SMOOTH);
   gluQuadricDrawStyle(quadric, GLU_FILL);
 
-  glEnable(GL_LIGHTING);
   glShadeModel(GL_SMOOTH);
-  moveCameraPosition(0);
 
-  currentFrame[0] = 1; // TODO: remove
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  glLightfv(GL_LIGHT0, GL_POSITION, light0Pos);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, backgroundColor);
+
+  glMatrixMode(GL_MODELVIEW);
+  moveCameraPosition(0);
 
   // Configure the OpenGL widget
   glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_DOUBLE);
   if (glConfig == NULL) {
-    g_print("EEE Double buffer not available, trying single buffer.");
+    g_warning("EEE Double buffer not available, trying single buffer.");
     glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH);
     if (glConfig == NULL) {
-      g_print("EEE Sorry, can't configure the OpenGL window. Giving up.");
+      g_error("EEE Sorry, can't configure the OpenGL window. Giving up.");
       exit(1);
     }
   }
 
   xml = glade_xml_new("src/main_gui.glade", NULL, NULL);
-  glade_xml_signal_autoconnect(xml);
 
   window = glade_xml_get_widget(xml, "main_window");
   gtk_container_set_reallocate_redraws(GTK_CONTAINER(window), TRUE);
   drawingArea = glade_xml_get_widget(xml, "drawing_area");
   gtk_widget_set_gl_capability(drawingArea, glConfig, NULL, TRUE, GDK_GL_RGBA_TYPE);
 
+  glade_xml_signal_autoconnect(xml);
 
   gtk_widget_show(window);
   gtk_main();
