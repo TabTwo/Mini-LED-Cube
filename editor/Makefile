@@ -7,6 +7,7 @@ SRCDIR=src
 all:
 	$(CC) $(CFLAGS) $(GTKLIBS) -c $(SRCDIR)/display.c
 	$(CC) $(CFLAGS) $(GTKLIBS) -c $(SRCDIR)/input.c
+	$(CC) $(CFLAGS) $(GTKLIBS) -c $(SRCDIR)/usb.c
 	$(CC) $(CFLAGS) $(GTKLIBS) -c $(SRCDIR)/main.c
 
 	$(CC) $(CFLAGS) $(LINKER_FLAGS) $(GTKLIBS) -o ledcube-edit main.o display.o input.o

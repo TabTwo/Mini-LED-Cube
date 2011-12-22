@@ -11,18 +11,6 @@ void on_main_window_delete_event(GtkObject *object, gpointer userData) {
   gtk_main_quit();
 }
 
-gboolean on_drawing_area_configure_event(GtkWidget *widget, GdkEventConfigure *event, gpointer data) {
-  GdkGLContext *glContext = gtk_widget_get_gl_context(widget);
-  GdkGLDrawable *glDrawable = gtk_widget_get_gl_drawable(widget);
-
-  if (!gdk_gl_drawable_gl_begin(glDrawable, glContext)) return FALSE;
-
-  setScene();
-
-  gdk_gl_drawable_gl_end(glDrawable);
-  return FALSE;
-}
-
 gboolean on_drawing_area_expose_event(GtkWidget *widget, GdkEventExpose *event, gpointer data) {
   GdkGLContext *glContext = gtk_widget_get_gl_context(widget);
   GdkGLDrawable *glDrawable = gtk_widget_get_gl_drawable(widget);
@@ -39,13 +27,6 @@ gboolean on_drawing_area_expose_event(GtkWidget *widget, GdkEventExpose *event, 
   gdk_gl_drawable_gl_end(glDrawable);
 
   return FALSE;
-}
-
-void on_drawing_area_realize(GtkWidget *widget, gpointer data) {
-  GdkGLContext *glContext = gtk_widget_get_gl_context(widget);
-  GdkGLDrawable *glDrawable = gtk_widget_get_gl_drawable(widget);
-  if (!gdk_gl_drawable_gl_begin(glDrawable, glContext)) return;
-  gdk_gl_drawable_gl_end(glDrawable);
 }
 
 void on_drawing_area_key_press_event(GtkWidget *widget, GdkEventKey *event) {
@@ -71,14 +52,13 @@ void on_drawing_area_button_press_event(GtkWidget *widget, gpointer data) {
   gtk_widget_grab_focus(widget);
 
   GdkGLContext *glContext = gtk_widget_get_gl_context(widget);
-  GdkGLDrawable *glDrawable =gtk_widget_get_gl_drawable(widget);
+  GdkGLDrawable *glDrawable = gtk_widget_get_gl_drawable(widget);
+  gint x, y;
+
+  gtk_widget_get_pointer(widget, &x, &y);
 
   if (!gdk_gl_drawable_gl_begin(glDrawable, glContext)) return;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-  gint x, y;
-  gtk_widget_get_pointer(widget, &x, &y);
   
   display(TRUE);
   mouse(x, y);

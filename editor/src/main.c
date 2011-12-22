@@ -15,10 +15,10 @@
 // TODO: Refactor to GLib-Datatypes (page 747)
 
 // Materials
-float ledOnMaterial[] = {0.0, 0.0, 1.0, 1.0};
+float ledOnMaterial[] = {0.0, 0.0, 1.0, 0.4};
 float ledOffMaterial[] = {0.1, 0.1, 0.1, 0.0};
 float wireMaterial[] = {0.7, 0.7, 0.7, 1.0};
-float innerWireMaterial[] = {0.2, 0.2, 0.2, 0.3};
+float innerWireMaterial[] = {0.3, 0.3, 0.3, 0.3};
 
 // Colors
 float backgroundColor[] = {0.3, 0.3, 0.3, 0.4};
@@ -50,11 +50,15 @@ int main(int argc, char *argv[]) {
   gluQuadricNormals(quadric, GLU_SMOOTH);
   gluQuadricDrawStyle(quadric, GLU_FILL);
 
-  glEnable(GL_LIGHTING);
   glShadeModel(GL_SMOOTH);
-  moveCameraPosition(0);
 
-  currentFrame[0] = 1; // TODO: remove
+  glEnable(GL_LIGHTING);
+  glEnable(GL_LIGHT0);
+  glLightfv(GL_LIGHT0, GL_POSITION, light0Pos);
+  glLightfv(GL_LIGHT0, GL_AMBIENT, backgroundColor);
+
+  glMatrixMode(GL_MODELVIEW);
+  moveCameraPosition(0);
 
   // Configure the OpenGL widget
   glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_DOUBLE);
