@@ -13,6 +13,7 @@ ii  libusb-0.1-4                                             2:0.1.12-18        
 ii  libusb-1.0-0                                             2:1.0.8-4                                             userspace USB programming library
 ii  libusb-1.0-0-dev                                         2:1.0.8-4                                             userspace USB programming library development files
 ii  libusb-dev                                               2:0.1.12-18                                           userspace USB programming library development files
+ii  libargtable2-dev                                         12-1                                                  A library for parsing GNU style command line arguments
 
 3D editor:
 
