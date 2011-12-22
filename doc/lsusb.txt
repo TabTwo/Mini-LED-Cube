@@ -1,5 +1,5 @@
 
-Bus 002 Device 013: ID 16c0:05df VOTI 
+Bus 002 Device 012: ID 16c0:05df VOTI 
 Device Descriptor:
   bLength                18
   bDescriptorType         1
@@ -12,7 +12,7 @@ Device Descriptor:
   idProduct          0x05df 
   bcdDevice            1.00
   iManufacturer           1 CTHN.de
-  iProduct                2 MiniLEDCube
+  iProduct                2 LEDCube
   iSerial                 0 
   bNumConfigurations      1
   Configuration Descriptor:
