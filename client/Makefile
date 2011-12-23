@@ -22,21 +22,24 @@ EXE_SUFFIX =
 #USBLIBS = -L/usr/local/lib -lusb
 #EXE_SUFFIX = .exe
 
-NAME = demo
+DEMO_NAME = demo
+NAME = clcc
 
 OBJECTS = opendevice.o $(NAME).o
 
-CC		= gcc
+CC	= gcc
 CFLAGS	= $(CPPFLAGS) $(USBFLAGS) -O -g -Wall
-LIBS	= $(USBLIBS) -lm
+LIBS	= $(USBLIBS) -lm -largtable2
 
 PROGRAM = $(NAME)$(EXE_SUFFIX)
 
-
-all: $(PROGRAM)
+all: $(PROGRAM) $(DEMO)
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
+
+$(DEMO): $(OBJECTS)
+	$(CC) -o $(DEMO) $(OBJECTS) $(LIBS)
 
 $(PROGRAM): $(OBJECTS)
 	$(CC) -o $(PROGRAM) $(OBJECTS) $(LIBS)
