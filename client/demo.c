@@ -1,23 +1,13 @@
-/* Name: lc_set-led.c
- * Project: hid-custom-rq example
- * Author: Christian Starkjohann
- * Creation Date: 2008-04-10
- * Tabsize: 4
- * Copyright: (c) 2008 by OBJECTIVE DEVELOPMENT Software GmbH
- * License: GNU GPL v2 (see License.txt), GNU GPL v3 or proprietary (CommercialLicense.txt)
- * This Revision: $Id: lc_set-led.c 692 2008-11-07 15:07:40Z cs $
- */
-
 /*
-General Description:
-This is the host-side driver for the custom-class example device. It searches
-the USB for the LEDControl device and sends the requests understood by this
-device.
-This program must be linked with libusb on Unix and libusb-win32 on Windows.
-See http://libusb.sourceforge.net/ or http://libusb-win32.sourceforge.net/
-respectively.
-*/
-
+ * CTHN.de MiniLEDCube
+ *
+ *  By Kai Lauterbach (klaute at web dot de) 11/2011
+ *
+ *  Based on http://mosfetkiller.de/?s=miniledcube
+ *
+ *  License: General Public License (GPL v3)
+ *
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,6 +19,9 @@ respectively.
 
 #include "ledcube.c"
 
+/**
+ *
+ */
 void eeprom1()
 {
 
@@ -58,6 +51,9 @@ void eeprom1()
 
 }
 
+/**
+ *
+ */
 void sinus1(int max)
 {
 
