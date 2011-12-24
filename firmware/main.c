@@ -33,20 +33,20 @@ void init()
     DDRB  = 0b11111111;    // PB0-PB7: LED 1-8 (Kathode)
     PORTB = 0b11111111;    // HIGH
 
-    DDRD  = 0b01111000;    // PD6: LED 9 (Kathode); PD5-PD3: A-C (Anoden)
+    DDRD  = 0b01111000;    // PD6: LED 9 (Kathode); PD5-PD3: A-C (Anode)
     PORTD = 0b01000000;
 
-    // Setup Timer-Interrupt "TIMER1"
+    // Setup Timer-Interrupt "TIMER1" compare match interrupt
     TIMSK |= (1 << OCIE1A);
 
-    // Refreshrate is 100Hz
-    // Set the compare value
+    // Refreshrate is 100Hz of the whole LEDCube.
+    // The ISR comes up at 300Hz.
+    // Set the compare value to
     // 625d = 0x271 = 0b00000010, 0b01110001
     OCR1AH = 0b00000010;
     OCR1AL = 0b01110001;
 
-    // anpassen auf reihenweise ausgabe
-    // prescale is 64 (0x011) ----> CS12=0, CS11=1, CS10=1
+    // Set prescale to 64 and clear the counter on compare match.
     TCCR1B |= (1 << CS11) | (1 << CS10) | (1 << WGM12);
 
     sei(); // Enable interrupts global
@@ -56,8 +56,7 @@ void init()
 ISR (TIMER1_COMPA_vect)
 {
 
-    //delay--; // decrease the delay counter
-    if ( !(--delay) ) // check if we are done with waiting
+    if ( !(--delay) ) // decrease the counter and check if we are done with waiting
     {
         if (frmnum == MAX_EEPROM_FRAMES)
         {
