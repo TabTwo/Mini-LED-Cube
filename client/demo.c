@@ -17,8 +17,6 @@
 
 #include "../firmware/globals.h"   /* custom request numbers */
 
-//#include "ledcube.h"
-
 extern void lc_setFrame(unsigned long);
 extern void lc_setMode(int);
 extern void lc_saveFrame(unsigned long, int);

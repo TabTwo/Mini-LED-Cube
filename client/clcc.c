@@ -18,7 +18,12 @@
 
 #include "../firmware/globals.h"   /* custom request numbers */
 
-//#include "ledcube.h"
+// External functions to control the ledcube.
+extern void lc_setFrame(unsigned long);
+extern void lc_setMode(int);
+extern void lc_saveFrame(unsigned long, int);
+extern void lc_init(void);
+extern void lc_close(void);
 
 int main(int argc, char **argv)
 {
