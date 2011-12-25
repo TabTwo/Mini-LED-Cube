@@ -18,14 +18,17 @@
 
 #include "../firmware/globals.h"   /* custom request numbers */
 
-#include "ledcube.c"
+//#include "ledcube.h"
 
 int main(int argc, char **argv)
 {
+
     lc_init();
 
-    // TODO
+    // TODO parse commandline parameters
 
     lc_close();
+
+    return 0;
 }
 

@@ -25,27 +25,31 @@ EXE_SUFFIX =
 DEMO_NAME = demo
 NAME = clcc
 
-OBJECTS = opendevice.o $(NAME).o
+OBJECTS = ledcube.o opendevice.o $(NAME).o
+OBJECTS_DEMO = ledcube.o opendevice.o $(DEMO_NAME).o
 
 CC	= gcc
-CFLAGS	= $(CPPFLAGS) $(USBFLAGS) -O -g -Wall
+CFLAGS	= $(CPPFLAGS) $(USBFLAGS) -O3 -Wall
 LIBS	= $(USBLIBS) -lm -largtable2
 
 PROGRAM = $(NAME)$(EXE_SUFFIX)
+DEMO = $(DEMO_NAME)$(EXE_SUFFIX)
 
 all: $(PROGRAM) $(DEMO)
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
-$(DEMO): $(OBJECTS)
-	$(CC) -o $(DEMO) $(OBJECTS) $(LIBS)
+$(DEMO): $(OBJECTS_DEMO)
+	$(CC) -o $(DEMO) $(OBJECTS_DEMO) $(LIBS)
 
 $(PROGRAM): $(OBJECTS)
 	$(CC) -o $(PROGRAM) $(OBJECTS) $(LIBS)
 
 strip: $(PROGRAM)
 	strip $(PROGRAM)
+	strip $(DEMO)
 
 clean:
-	rm -f *.o $(PROGRAM)
+	rm -f *.o $(PROGRAM) $(DEMO)
+

@@ -17,7 +17,13 @@
 
 #include "../firmware/globals.h"   /* custom request numbers */
 
-#include "ledcube.c"
+//#include "ledcube.h"
+
+extern void lc_setFrame(unsigned long);
+extern void lc_setMode(int);
+extern void lc_saveFrame(unsigned long, int);
+extern void lc_init(void);
+extern void lc_close(void);
 
 /**
  *
@@ -65,15 +71,25 @@ void sinus1(int max)
     {
 
         int i = 0;
+        int k = 0;
+        //for (i = 0; i < 360; i+=11)
         for (i = 0; i < 360; i++)
         {
+            // 2 = 27
+            // 1 = 27 / 2
+            // n = 27 * n / 2
             double d = cos((double)((6.28*i)/360)) + 1; // 6.28 = PI * 2
             unsigned long tmp = (1 << (int)((27 * d) / 2));
 
             // show frame
             lc_setFrame(tmp);
+            // or save the frame to eeprom
+            //tmp = tmp + (k << 27);
+            //if (k < 32)
+                //lc_saveFrame(tmp, k);
 
             usleep(2500);
+            k++;
         }
 
     }
