@@ -1,19 +1,32 @@
+Ubuntu 11.10 packages
 
 firmware:
-ii  avr-gcc-4.3.4-avrfreaks-30-apr-2010-u10.04.i386          0.1                                                   Ubuntu 10.04 i386 avr-gcc toolchain  based on the below script from AvrFreaks.
-ii  avr-libc                                                 1:1.7.1-2                                             Standard C library for Atmel AVR development
-ii  avrdude                                                  5.10-3                                                software for programming Atmel AVR microcontrollers
-ii  binutils-avr                                             2.20.1-2                                              Binary utilities supporting Atmel's AVR targets
-ii  gcc-avr                                                  1:4.5.3-2                                             The GNU C compiler (cross compiler for avr)
+---------
+
+avr-gcc-4.3.4-avrfreaks-30-apr-2010-u10.04.i386          0.1                                                   Ubuntu 10.04 i386 avr-gcc toolchain  based on the below script from AvrFreaks.
+avr-libc                                                 1:1.7.1-2                                             Standard C library for Atmel AVR development
+avrdude                                                  5.10-3                                                software for programming Atmel AVR microcontrollers
+binutils-avr                                             2.20.1-2                                              Binary utilities supporting Atmel's AVR targets
+gcc-avr                                                  1:4.5.3-2                                             The GNU C compiler (cross compiler for avr)
 
 client:
-ii  libusb++-0.1-4c2                                         2:0.1.12-18                                           userspace C++ USB programming library
-ii  libusb++-dev                                             2:0.1.12-18                                           userspace C++ USB programming library development files
-ii  libusb-0.1-4                                             2:0.1.12-18                                           userspace USB programming library
-ii  libusb-1.0-0                                             2:1.0.8-4                                             userspace USB programming library
-ii  libusb-1.0-0-dev                                         2:1.0.8-4                                             userspace USB programming library development files
-ii  libusb-dev                                               2:0.1.12-18                                           userspace USB programming library development files
-ii  libargtable2-dev                                         12-1                                                  A library for parsing GNU style command line arguments
+-------
+
+libusb++-0.1-4c2                                         2:0.1.12-18                                           userspace C++ USB programming library
+libusb++-dev                                             2:0.1.12-18                                           userspace C++ USB programming library development files
+libusb-0.1-4                                             2:0.1.12-18                                           userspace USB programming library
+libusb-1.0-0                                             2:1.0.8-4                                             userspace USB programming library
+libusb-1.0-0-dev                                         2:1.0.8-4                                             userspace USB programming library development files
+libusb-dev                                               2:0.1.12-18                                           userspace USB programming library development files
+libargtable2-dev                                         12-1                                                  A library for parsing GNU style command line arguments
 
 3D editor:
+----------
+
+doxygen documentation:
+----------------------
+
+doxygen                                                  1.7.4-3                                               Documentation system for C, C++, Java, Python and other languages
+doxygen-latex                                            1.7.4-3                                               Documentation system for C, C++, Java, Python and other languages
+graphviz                                                 2.26.3-5ubuntu4                                       rich set of graph drawing tools
 
