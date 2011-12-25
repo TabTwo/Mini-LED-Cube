@@ -41,7 +41,7 @@ int                  _lc_vid,
 
 int lc_setFrame(unsigned long);
 int lc_setMode(int);
-int lc_saveFrame(unsigned long, int);
+int lc_saveFrame(unsigned long, int, int);
 int lc_init(void);
 int lc_close(void);
 

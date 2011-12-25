@@ -84,7 +84,7 @@ void sinus1(int max)
             // or save the frame to eeprom
             //tmp = tmp + (k << 27);
             //if (k < 32)
-                //lc_saveFrame(tmp, k);
+                //lc_saveFrame(tmp, k, k);
 
             usleep(2500);
             k++;
