@@ -26,7 +26,7 @@ main()
     }
 }
 
-// Initialisierung
+// Initialize the AVR.
 void init()
 {
     // Init ports
@@ -52,7 +52,7 @@ void init()
     sei(); // Enable interrupts global
 }
 
-// TIMER1 Interruptvector
+// TIMER1 interruptvector
 ISR (TIMER1_COMPA_vect)
 {
 
