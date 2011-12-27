@@ -14,3 +14,6 @@
 
 #define MAX_EEPROM_FRAMES 32
 
+#ifndef EEMEM
+#define EEMEM  __attribute__ ((section (".eeprom")))
+#endif
