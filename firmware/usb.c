@@ -25,7 +25,7 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
 
             // because of the code size we have to transfer one frame in
             // two steps (control messages)
-            if ( rq->wIndex.bytes[0] == 0 )
+            if ( ! rq->wIndex.bytes[0] )
             {
                 // the lower word
                 frame = (frame & (uint32_t)0xffff0000) |

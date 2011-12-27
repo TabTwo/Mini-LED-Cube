@@ -15,10 +15,6 @@
 
 #include <avr/eeprom.h>
 
-#ifndef EEMEM
-#define EEMEM  __attribute__ ((section (".eeprom")))
-#endif
-
 #include "globals.h"
 
 #include "usbconfig.h"
