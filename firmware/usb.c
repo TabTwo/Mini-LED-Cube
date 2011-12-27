@@ -14,6 +14,10 @@
 
 /* ------------------------------------------------------------------------- */
 
+/*! \brief
+ *  \param USB Data packet.
+ *  \return The length of the received or send data.
+ */
 usbMsgLen_t usbFunctionSetup(uchar data[8])
 {
     usbRequest_t *rq = (void *)data;
@@ -57,6 +61,8 @@ usbMsgLen_t usbFunctionSetup(uchar data[8])
 
 /* ------------------------------------------------------------------------- */
 
+/*! \brief Initializes the USB conneciton.
+ */
 void init_usb(void)
 {
 

@@ -11,7 +11,8 @@
 
 #include "main.h"
 
-// Main loop
+/*! \brief Main loop
+ */
 int __attribute__((OS_main))
 main()
 {
@@ -26,7 +27,8 @@ main()
     }
 }
 
-// Initialize the AVR.
+/*! \brief Initialize the AVR.
+ */
 void init()
 {
     // Init ports
@@ -52,7 +54,8 @@ void init()
     sei(); // Enable interrupts global
 }
 
-// TIMER1 interruptvector
+/*! \brief TIMER1 interruptvector
+ */
 ISR (TIMER1_COMPA_vect)
 {
 

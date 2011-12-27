@@ -19,12 +19,13 @@
 #include <avr/io.h>
 #include <avr/eeprom.h>
 
-// Cube-Data
-// bit  0 -  8 = level 1
-// bit  9 - 17 = level 2
-// bit 18 - 26 = level 3
-// bit 27 - 31 = The delay in ISR calls multiplied with 8 until
-//               the next frame will be shown (load from the EEPROM)
+/*! \brief Cube-Data
+ * bit  0 -  8 = level 1
+ * bit  9 - 17 = level 2
+ * bit 18 - 26 = level 3
+ * bit 27 - 31 = The delay in ISR calls multiplied with 8 until
+ *               the next frame will be shown (load from the EEPROM)
+ */
 uint32_t frame;
 
 uint8_t level; // current layer
