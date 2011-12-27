@@ -44,7 +44,7 @@ int lc_setMode(int mode)
 
 /*! \brief The saveFrame function.
  * \param frame The 32bit frame data. Bit 0-8 equals layer one; bit 9 - 17 euqals layer two; bit 18 - 26 equals layer three. The 5 MSB is the lifetime of the current frame in ISR calls (300Hz) multiplied by 8.
- * \param deay The lifetime (onyl 5 bits) of the given frame in ISR calls multiplied by 8.
+ * \param delay The lifetime (onyl 5 bits) of the given frame in ISR calls multiplied by 8.
  * \param index The position in the EEPROM (0 to 31) of the internal animation content.
  * \return NOT_CONNECTED_ERROR or the return value of the usb_control_msg function.
  */
