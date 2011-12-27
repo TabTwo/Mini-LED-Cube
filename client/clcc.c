@@ -1,7 +1,7 @@
 /*
  * CTHN.de MiniLEDCube
  *
- *  By Kai Lauterbach (klaute at web dot de) 11/2011
+ *  By Kai Lauterbach (klaute at web dot de) 12/2011
  *
  *  Based on http://mosfetkiller.de/?s=miniledcube
  *
