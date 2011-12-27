@@ -15,7 +15,7 @@
 /* ------------------------------------------------------------------------- */
 
 /*! \brief
- *  \param USB Data packet.
+ *  \param data USB Data packet.
  *  \return The length of the received or send data.
  */
 usbMsgLen_t usbFunctionSetup(uchar data[8])
