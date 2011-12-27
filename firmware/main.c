@@ -76,7 +76,7 @@ ISR (TIMER1_COMPA_vect)
         // Possible delays are 8 16 24 32 and so on. A zero delay isn't possible.
         // Zero means that a delay of 255 happens because the delay variable was decreased first before testing
         // it's is zero value.
-        delay = (frame & 0xf8000000) >> 24;
+        delay = (frame >> 24) & 0xf8;
     }
 
 	// PORTD = __, 9, C, B, A,D+,D-,__
