@@ -59,7 +59,7 @@ void on_drawing_area_button_press_event(GtkWidget *widget, gpointer data) {
 
   if (!gdk_gl_drawable_gl_begin(glDrawable, glContext)) return;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  
+
   display(TRUE);
   mouse(x, y);
 

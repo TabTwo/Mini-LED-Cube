@@ -1,10 +1,10 @@
 #ifndef _INPUT_H
 #define _INPUT_H
 
-void moveCameraPosition(float direction);
-void moveCameraAngle(float angle);
+void moveCameraPosition(gfloat direction);
+void moveCameraAngle(gfloat angle);
 
-void mouse(int x, int y);
+void mouse(gint x, gint y);
 
 #endif
 

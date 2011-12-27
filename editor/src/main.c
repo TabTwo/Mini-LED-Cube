@@ -12,22 +12,20 @@
 #include "input.h"
 #include "event_callbacks.c"
 
-// TODO: Refactor to GLib-Datatypes (page 747)
-
 // Materials
-float ledOnMaterial[] = {0.0, 0.0, 1.0, 0.4};
-float ledOffMaterial[] = {0.1, 0.1, 0.1, 0.0};
-float wireMaterial[] = {0.7, 0.7, 0.7, 1.0};
-float innerWireMaterial[] = {0.3, 0.3, 0.3, 0.3};
+gfloat ledOnMaterial[] = {0.0, 0.0, 1.0, 0.4};
+gfloat ledOffMaterial[] = {0.1, 0.1, 0.1, 0.0};
+gfloat wireMaterial[] = {0.7, 0.7, 0.7, 1.0};
+gfloat innerWireMaterial[] = {0.3, 0.3, 0.3, 0.3};
 
 // Colors
-float backgroundColor[] = {0.3, 0.3, 0.3, 0.4};
+gfloat backgroundColor[] = {0.3, 0.3, 0.3, 0.4};
 
 // Positions
-float light0Pos[] = {70, 70, 70, 0.0};
-float lookX = 0.0, lookZ = 0.0;
-float eyePos = 0.0, eyeAngle = 45.0;
-int ledOrientation = TOP_ORIENTATION;
+gfloat light0Pos[] = {70, 70, 70, 0.0};
+gfloat lookX = 0.0, lookZ = 0.0;
+gfloat eyePos = 0.0, eyeAngle = 45.0;
+gint ledOrientation = TOP_ORIENTATION;
 
 // Objects
 GLUquadricObj *quadric;
@@ -36,10 +34,10 @@ GdkGLContext *glContext;
 GtkWidget *window, *drawingArea;
 
 // LED data
-int currentFrame[27] = {0};
+gint currentFrame[27] = {0};
 
 
-int main(int argc, char *argv[]) {
+gint main(gint argc, gchar *argv[]) {
   GladeXML *xml;
 
   gtk_init(&argc, &argv);
