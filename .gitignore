@@ -1,6 +1,7 @@
 doc/doxygen
 TAGS
 firmware/.dep
+firmware/usbdrv/.dep
 *.lst
 *.o
 *.hex
@@ -12,5 +13,4 @@ firmware/.dep
 *.eep
 *.map
 *.sym
-
 TAGS
