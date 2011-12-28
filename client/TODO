@@ -3,7 +3,7 @@ Features:
     - transfer .eep file (128 byte)
     - all LEDs on/off
     - set one frame as a 32bit hex parameter like 0x07007007
-    - change firmware mode
+    - change firmware mode (see firmware/README for furture information about the available modes)
     - commandline parameter interface
     - terminal mode
     - daemon mode with socket interface
