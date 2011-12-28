@@ -8,6 +8,9 @@
 #include "input.h"
 #include "display.h"
 
+#include "../firmware/globals.h"   /* custom request numbers */
+
+extern void lc_init(void);
 
 void moveCameraPosition(gfloat direction) {
   eyePos += direction;

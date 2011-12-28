@@ -8,6 +8,12 @@
 #define MOVE_SPEED    7
 #define ZOOM_LEVEL    25
 
+// LEDCube constants
+#define NOT_CONNECTED_ERROR    -1
+#define DEVICE_NOT_FOUND_ERROR -2
+
+#define SUCCESSFULLY_CONNECTED  1
+
 // Poor Man's enums
 #define TOP_ORIENTATION   0x01
 #define SIDE_ORIENTATION  0x02

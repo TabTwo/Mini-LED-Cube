@@ -37,8 +37,18 @@ GtkWidget *window, *drawingArea;
 gint currentFrame[27] = {0};
 
 
+void* connectToLEDCube(void) {
+  int ret = NULL;
+  while (ret == NULL || ret != SUCCESSFULLY_CONNECTED) {
+    ret = lc_init();
+    g_print("connecting ...");
+    sleep(3);
+  }
+}
+
 gint main(gint argc, gchar *argv[]) {
   GladeXML *xml;
+  GThread *connectThread;
 
   gtk_init(&argc, &argv);
   gdk_gl_init(&argc, &argv);
@@ -61,10 +71,10 @@ gint main(gint argc, gchar *argv[]) {
   // Configure the OpenGL widget
   glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_DOUBLE);
   if (glConfig == NULL) {
-    g_warning("EEE Double buffer not available, trying single buffer.");
+    g_warning("Double buffer not available, trying single buffer.");
     glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH);
     if (glConfig == NULL) {
-      g_error("EEE Sorry, can't configure the OpenGL window. Giving up.");
+      g_error("Sorry, can't configure the OpenGL window. Giving up.");
       exit(1);
     }
   }
@@ -78,9 +88,31 @@ gint main(gint argc, gchar *argv[]) {
 
   glade_xml_signal_autoconnect(xml);
 
+  if (g_thread_supported()) {
+    g_print("1");
+    g_thread_init(NULL);
+    g_print("2");
+    gdk_threads_init();
+    g_print("3");
+  } else {
+    g_error("Threads not supported, we die.");
+    exit(1);
+  }
+
+  GError *error;
+
+  g_thread_init(NULL);
+  if (connectThread = g_thread_create((GThreadFunc)connectToLEDCube, NULL, TRUE, &error) == NULL) {
+    g_error("Can't create the thread, we stop here.");
+    exit(1);
+  }
+  //g_thread_join(connectThread);
+
+  g_print("asdf");
   gtk_widget_show(window);
   gtk_main();
 
+  lc_close();
   return 0;
 }
 
