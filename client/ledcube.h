@@ -12,17 +12,14 @@
 #ifndef __LEDCUBE_H_INCLUDED__
 #define __LEDCUBE_H_INCLUDED__
 
-#define NOT_CONNECTED_ERROR    -1
-#define DEVICE_NOT_FOUND_ERROR -2
-
-#define SUCCESSFULLY_CONNECTED  1
-
 #include <stdio.h>
 #include <usb.h>        /* this is libusb */
 
 #include "opendevice.h" /* common code moved to separate module */
 
-#include "../firmware/globals.h"   /* custom request numbers */
+#include "globals.h"
+
+#include "../firmware/globals.h"
 #include "../firmware/requests.h"   /* custom request numbers */
 #include "../firmware/usbconfig.h"  /* device's VID/PID and names */
 

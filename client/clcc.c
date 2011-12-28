@@ -16,7 +16,9 @@
 #include <usb.h>
 #include <argtable2.h>
 
-#include "../firmware/globals.h"   /* custom request numbers */
+#include "globals.h"
+
+#include "../firmware/globals.h"
 
 // External functions to control the ledcube.
 extern void lc_setFrame(unsigned long);

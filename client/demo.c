@@ -15,7 +15,9 @@
 #include <math.h>
 #include <usb.h>
 
-#include "../firmware/globals.h"   /* custom request numbers */
+#include "globals.h"
+
+#include "../firmware/globals.h"
 
 extern int lc_setFrame(unsigned long);
 extern int lc_setMode(int);
