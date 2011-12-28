@@ -48,7 +48,7 @@ void eeprom1()
         }
 
         // save to position tmp
-        lc_saveFrame(buf, tmp);
+        lc_saveFrame(buf, tmp, buf);
 
     }
     //
