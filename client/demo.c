@@ -17,13 +17,13 @@
 
 #include "../firmware/globals.h"   /* custom request numbers */
 
-extern void lc_setFrame(unsigned long);
-extern void lc_setMode(int);
-extern void lc_saveFrame(unsigned long, int);
-extern void lc_init(void);
-extern void lc_close(void);
+extern int lc_setFrame(unsigned long);
+extern int lc_setMode(int);
+extern int lc_saveFrame(unsigned long, int, int);
+extern int lc_init(void);
+extern int lc_close(void);
 
-/**
+/*
  *
  */
 void eeprom1()
@@ -55,7 +55,7 @@ void eeprom1()
 
 }
 
-/**
+/*
  *
  */
 void sinus1(int max)
@@ -94,7 +94,7 @@ void sinus1(int max)
 
 }
 
-/**
+/*
  *
  */
 void demo()
