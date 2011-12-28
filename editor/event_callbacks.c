@@ -3,9 +3,44 @@
 #include <GL/glut.h>
 #include <gdk/gdkkeysyms.h>
 
+#include <stdio.h>
+
+#include "../firmware/globals.h"
+
 #include "config.h"
 #include "input.h"
 #include "display.h"
+
+extern int lc_setFrame(unsigned long);
+extern int lc_setMode(int);
+extern int lc_saveFrame(unsigned long, int, int);
+extern int lc_init(void);
+extern int lc_close(void);
+
+
+// "Live" Mode. If a user clicks a LED, the frame needs to re-send to
+// the LEDCube.
+void on_change_led() {
+  int success = lc_init();
+  if (success == SUCCESSFULLY_CONNECTED) {
+    // Reorder the frame array to a 32bit int?
+    unsigned long frame = 0;
+    gint i = 0;
+    for (i=0; i<27; ++i) {
+      frame |= (currentFrame[i] << i);
+    }
+
+    // Send it to the cube
+    lc_setFrame(frame);
+  }
+}
+
+// TODO: Make it work on the GUI (button etc.)
+void on_change_mode(int newMode) {
+  lc_setMode(newMode);
+}
+
+
 
 void on_main_window_delete_event(GtkObject *object, gpointer userData) {
   gtk_main_quit();
@@ -59,7 +94,7 @@ void on_drawing_area_button_press_event(GtkWidget *widget, gpointer data) {
 
   if (!gdk_gl_drawable_gl_begin(glDrawable, glContext)) return;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  
+
   display(TRUE);
   mouse(x, y);
 

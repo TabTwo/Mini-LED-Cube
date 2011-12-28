@@ -8,7 +8,11 @@
 #define MOVE_SPEED    7
 #define ZOOM_LEVEL    25
 
-#define PI            3.1415926535897932
+// LEDCube constants
+#define NOT_CONNECTED_ERROR    -1
+#define DEVICE_NOT_FOUND_ERROR -2
+
+#define SUCCESSFULLY_CONNECTED  1
 
 // Poor Man's enums
 #define TOP_ORIENTATION   0x01
@@ -18,16 +22,16 @@
 #define PICKING_MODE      0x02
 
 // Materials
-extern float ledOnMaterial[];
-extern float ledOffMaterial[];
-extern float wireMaterial[];
-extern float innerWireMaterial[];
-extern float backgroundColor[];
+extern gfloat ledOnMaterial[];
+extern gfloat ledOffMaterial[];
+extern gfloat wireMaterial[];
+extern gfloat innerWireMaterial[];
+extern gfloat backgroundColor[];
 
 // Movement
-extern float lookX, lookZ;
-extern float eyePos, eyeAngle;
-extern int ledOrientation;
+extern gfloat lookX, lookZ;
+extern gfloat eyePos, eyeAngle;
+extern gint ledOrientation;
 
 // Objects
 extern GLUquadricObj *quadric;
@@ -36,10 +40,10 @@ extern GdkGLWindow *glWindow;
 extern GdkGLContext *glContext;
 
 // Dimensions, positions
-extern float light0Pos[];
+extern gfloat light0Pos[];
 
 // LED data
-extern int currentFrame[27];
+extern gint currentFrame[27];
 
 #endif
 

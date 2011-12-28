@@ -8,9 +8,9 @@
 #include "display.h"
 
 
-void drawLEDs(int mode) {
-  int x, y, z;
-  int ledIndex = 0;
+void drawLEDs(gint mode) {
+  gint x, y, z;
+  gint ledIndex = 0;
 
   if (ledOrientation == TOP_ORIENTATION) {
     glRotatef(90, 2, 0, 0);
@@ -44,7 +44,7 @@ void drawLEDs(int mode) {
 }
 
 void drawWires() {
-  int x, y;
+  gint x, y;
   for (y=-10; y<=10; y+=10)
     for (x=-10; x<=10; x+=10) {
       glMaterialfv(GL_FRONT, GL_AMBIENT, ((x == 0 || y == 0) ? innerWireMaterial : wireMaterial));

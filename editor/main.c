@@ -12,22 +12,20 @@
 #include "input.h"
 #include "event_callbacks.c"
 
-// TODO: Refactor to GLib-Datatypes (page 747)
-
 // Materials
-float ledOnMaterial[] = {0.0, 0.0, 1.0, 0.4};
-float ledOffMaterial[] = {0.1, 0.1, 0.1, 0.0};
-float wireMaterial[] = {0.7, 0.7, 0.7, 1.0};
-float innerWireMaterial[] = {0.3, 0.3, 0.3, 0.3};
+gfloat ledOnMaterial[] = {0.0, 0.0, 1.0, 0.4};
+gfloat ledOffMaterial[] = {0.1, 0.1, 0.1, 0.0};
+gfloat wireMaterial[] = {0.7, 0.7, 0.7, 1.0};
+gfloat innerWireMaterial[] = {0.3, 0.3, 0.3, 0.3};
 
 // Colors
-float backgroundColor[] = {0.3, 0.3, 0.3, 0.4};
+gfloat backgroundColor[] = {0.3, 0.3, 0.3, 0.4};
 
 // Positions
-float light0Pos[] = {70, 70, 70, 0.0};
-float lookX = 0.0, lookZ = 0.0;
-float eyePos = 0.0, eyeAngle = 45.0;
-int ledOrientation = TOP_ORIENTATION;
+gfloat light0Pos[] = {70, 70, 70, 0.0};
+gfloat lookX = 0.0, lookZ = 0.0;
+gfloat eyePos = 0.0, eyeAngle = 45.0;
+gint ledOrientation = TOP_ORIENTATION;
 
 // Objects
 GLUquadricObj *quadric;
@@ -36,11 +34,21 @@ GdkGLContext *glContext;
 GtkWidget *window, *drawingArea;
 
 // LED data
-int currentFrame[27] = {0};
+gint currentFrame[27] = {0};
 
 
-int main(int argc, char *argv[]) {
+void* connectToLEDCube(void) {
+  int ret = NULL;
+  while (ret == NULL || ret != SUCCESSFULLY_CONNECTED) {
+    ret = lc_init();
+    g_print("connecting ...");
+    sleep(3);
+  }
+}
+
+gint main(gint argc, gchar *argv[]) {
   GladeXML *xml;
+  GThread *connectThread;
 
   gtk_init(&argc, &argv);
   gdk_gl_init(&argc, &argv);
@@ -63,10 +71,10 @@ int main(int argc, char *argv[]) {
   // Configure the OpenGL widget
   glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_DOUBLE);
   if (glConfig == NULL) {
-    g_warning("EEE Double buffer not available, trying single buffer.");
+    g_warning("Double buffer not available, trying single buffer.");
     glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH);
     if (glConfig == NULL) {
-      g_error("EEE Sorry, can't configure the OpenGL window. Giving up.");
+      g_error("Sorry, can't configure the OpenGL window. Giving up.");
       exit(1);
     }
   }
@@ -80,9 +88,31 @@ int main(int argc, char *argv[]) {
 
   glade_xml_signal_autoconnect(xml);
 
+  if (g_thread_supported()) {
+    g_print("1");
+    g_thread_init(NULL);
+    g_print("2");
+    gdk_threads_init();
+    g_print("3");
+  } else {
+    g_error("Threads not supported, we die.");
+    exit(1);
+  }
+
+  GError *error;
+
+  g_thread_init(NULL);
+  if (connectThread = g_thread_create((GThreadFunc)connectToLEDCube, NULL, TRUE, &error) == NULL) {
+    g_error("Can't create the thread, we stop here.");
+    exit(1);
+  }
+  //g_thread_join(connectThread);
+
+  g_print("asdf");
   gtk_widget_show(window);
   gtk_main();
 
+  lc_close();
   return 0;
 }
 
