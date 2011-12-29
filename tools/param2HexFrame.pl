@@ -9,7 +9,7 @@
 #   delay = 0 to 31 (multiplied by 8 in firmware and equals to the ISR calls (delay/300 seconds)
 #           0 equals to a delay of 255/300 seconds.
 #
-#   layer Y = layer no(1,2,3), bit0, bit1, bit2, ..., bit n (1 to 9)
+#   layer Y = layer no(1,2,3), bit0, bit1, bit2, ..., bit8 (bitN = 1 ... 9)
 #
 # Sample usage which generates 5 frames:
 #
@@ -75,3 +75,4 @@ for (my $i=0; $i<=$#ARGV; $i++)
     printf("lo:0x%04x = ", $frame & 0xffff);
     printf("0b%032b\n", $frame);
 }
+
