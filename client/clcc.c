@@ -32,8 +32,17 @@ int main(int argc, char **argv)
 
     lc_init();
 
-    // TODO parse commandline parameters
+    lc_setMode(MODE_ANIMATION_STOP);
 
+    // TODO parse commandline parameters
+    unsigned int frame = 0;
+    if ( sscanf((char*)argv[1], "0x%08x", &frame) )
+    {
+        printf("0x%08x\n", frame);
+        lc_setFrame(frame);
+    }
+
+    //lc_setMode(MODE_ANIMATION_LOOP);
     lc_close();
 
     return 0;
