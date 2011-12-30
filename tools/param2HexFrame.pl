@@ -13,15 +13,18 @@
 #
 # Sample usage which generates 5 frames:
 #
-# ./param2HexFrame.pl "25;3,2,5,8;" "14;3,3,5,7" "3;3,4,5,6;2,6,5,4" "23;3,1,5,9" "0;2,1,2,3,4,5,6,7,8,9;1,5"
+# perl ./param2HexFrame.pl "25;3,2,5,8;" "14;3,3,5,7" "3;3,4,5,6;2,6,5,4" "23;3,1,5,9" "0;2,1,2,3,4,5,6,7,8,9;1,5"
 # Frame 0 = 0xca480000 = hi:0xca48 = lo:0x0000 = 0b11001010010010000000000000000000
 # Frame 1 = 0x71500000 = hi:0x7150 = lo:0x0000 = 0b01110001010100000000000000000000
 # Frame 2 = 0x18e07000 = hi:0x18e0 = lo:0x7000 = 0b00011000111000000111000000000000
 # Frame 3 = 0xbc440000 = hi:0xbc44 = lo:0x0000 = 0b10111100010001000000000000000000
 # Frame 4 = 0x0003fe10 = hi:0x0003 = lo:0xfe10 = 0b00000000000000111111111000010000
 #
+# perl ./param2HexFrame.pl "5;3,2,5,8" "5;3,3,5,7" "5;3,4,5,6;" "5;3,1,5,9" "15;2,2,5,8" "15;2,3,5,7" "15;2,4,5,6" "15;2,1,5,9" "30;1,2,5,8" "30;1,3,5,7" "30;1,4,5,6" "30;1,1,5,9"
+#
 
 use strict;
+use Time::HiRes qw(usleep nanosleep);
 
 for (my $i=0; $i<=$#ARGV; $i++)
 {
@@ -74,5 +77,10 @@ for (my $i=0; $i<=$#ARGV; $i++)
     printf("hi:0x%04x = ", $frame >> 16);
     printf("lo:0x%04x = ", $frame & 0xffff);
     printf("0b%032b\n", $frame);
+    my $tmp = "";
+    $tmp = sprintf("0x%08x", $frame);
+    system("../client/clcc $tmp");
+    #print("../client/clcc $tmp\n");
+    usleep(250000);
 }
 
