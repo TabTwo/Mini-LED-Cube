@@ -54,7 +54,7 @@ void init()
     sei(); // Enable interrupts global
 }
 
-/*! \brief TIMER1 interruptvector
+/*! \brief TIMER1 interruptvector, called in a frequency of 300Hz.
  */
 ISR (TIMER1_COMPA_vect)
 {
