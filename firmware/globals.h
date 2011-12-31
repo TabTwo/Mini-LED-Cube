@@ -12,6 +12,7 @@
 #define MODE_ANIMATION_SINGLE 1
 #define MODE_ANIMATION_LOOP   2
 
+// 32 * 4 byte (32bit unsigned integer) = 128 byte eeprom
 #define MAX_EEPROM_FRAMES 32
 
 #ifndef EEMEM

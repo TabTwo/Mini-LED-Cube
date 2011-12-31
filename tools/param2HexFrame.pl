@@ -79,8 +79,9 @@ for (my $i=0; $i<=$#ARGV; $i++)
     printf("0b%032b\n", $frame);
     my $tmp = "";
     $tmp = sprintf("0x%08x", $frame);
-    system("../client/clcc $tmp");
-    #print("../client/clcc $tmp\n");
-    usleep(250000);
+    system("../client/clcc --save $i ". ($frame >> 27)." $tmp");
+    #print("../client/clcc --save $i ". ($frame >> 27)." $tmp\n");
+    #usleep(250000);
+    sleep 1;
 }
 
