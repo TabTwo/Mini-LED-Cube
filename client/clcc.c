@@ -32,10 +32,6 @@ int main(int argc, char **argv)
 
     lc_init();
 
-
-    //lc_close();
-
-    //return 0;
     if (argc == 2 && !strcmp((char*)argv[1], "--stop"))
     {
         printf("stop animation loop\n");
@@ -46,14 +42,27 @@ int main(int argc, char **argv)
         printf("starting animation loop\n");
         lc_setMode(MODE_ANIMATION_LOOP);
     }
+    else if (argc == 2 && !strcmp((char*)argv[1], "--single"))
+    {
+        printf("starting animation as single shot\n");
+        lc_setMode(MODE_ANIMATION_SINGLE);
+    }
+    else if (argc == 5 && !strcmp((char*)argv[1], "--view"))
+    {
+
+        lc_setMode(MODE_ANIMATION_STOP);
+        unsigned int frame = 0;
+        if ( sscanf((char*)argv[4], "0x%08x", &frame) )
+        {
+            printf("view frame: data=0x%08x\n", frame);
+            lc_setFrame(frame);
+        }
+    }
     else if (argc == 5 && !strcmp((char*)argv[1], "--save"))
     {
 
         lc_setMode(MODE_ANIMATION_STOP);
 
-        /*printf(">>> %s <<<\n", argv[1]);
-        printf(">>> %s <<<\n", argv[2]);
-        printf(">>> %s <<<\n", argv[3]);*/
         // TODO parse commandline parameters
         unsigned int pos = 0;
         if ( sscanf((char*)argv[2], "%d", &pos) )
