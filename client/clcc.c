@@ -52,7 +52,7 @@ int main(int argc, char **argv)
 
         lc_setMode(MODE_ANIMATION_STOP);
         unsigned int frame = 0;
-        if ( sscanf((char*)argv[4], "0x%08x", &frame) )
+        if ( sscanf((char*)argv[2], "0x%08x", &frame) )
         {
             printf("view frame: data=0x%08x\n", frame);
             lc_setFrame(frame);
