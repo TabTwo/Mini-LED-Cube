@@ -13,8 +13,7 @@
 
 /*! \brief Main loop
  */
-int __attribute__((OS_main))
-main()
+int __attribute__((OS_main)) main()
 {
     // Initialize the AVR and the USB connection.
     init();
