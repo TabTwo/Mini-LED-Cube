@@ -47,7 +47,7 @@ int main(int argc, char **argv)
         printf("starting animation as single shot\n");
         lc_setMode(MODE_ANIMATION_SINGLE);
     }
-    else if (argc == 5 && !strcmp((char*)argv[1], "--view"))
+    else if (argc == 3 && !strcmp((char*)argv[1], "--view"))
     {
 
         lc_setMode(MODE_ANIMATION_STOP);

@@ -12,13 +12,13 @@ Firmware features:
 * 100Hz frame refresh rate.
 * The EEPROM contains 32 frames. Every frame will be displayed.
 * Every frame has it's own lifetime. This is the delay between two bordering frames.
-* Hid conform USB 1.1 device with vendor id 16c0 and device id 05df.
+* Hid conform USB 1.1 device with vendor id 0x16c0 and device id 0x05df.
 * 3 firmware modes are adjustable via USB.
     MODE_ANIMATION_STOP   - Animation stopped. Single frames can be shown until
                             it will be overwritten.
     MODE_ANIMATION_SINGLE - Animation runs only once MODE_ANIMATION_STOP
                             will be entered after the last frame.
     MODE_ANIMATION_LOOP   - Animation runs endless. (default mode at startup)
-* Single frames can be transfered via USBand also save into the EEPROM. The
+* Single frames can be transfered via USB and also written into the EEPROM. The
   position in the EEPROM is elective settable.
 
