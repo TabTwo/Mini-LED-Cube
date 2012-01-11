@@ -1,4 +1,5 @@
-CC = gcc-4.4
+#CC = gcc-4.4
+CC = gcc
 CFLAGS = -Wall
 LINKER_FLAGS = -lglut -lGL -lGLU -export-dynamic
 CFLAGS += `pkg-config --cflags --libs gtk+-2.0 gtkglext-1.0 libglade-2.0 gmodule-export-2.0`
@@ -13,7 +14,7 @@ all:
 	$(CC) $(CFLAGS) -c ../client/ledcube.c
 	$(CC) $(CFLAGS) -c ../client/opendevice.c
 
-	$(CC) $(CFLAGS) $(LINKER_FLAGS) -o ledcube-edit main.o display.o input.o ledcube.o opendevice.o
+	$(CC) -o ledcube-edit main.o display.o input.o ledcube.o opendevice.o $(CFLAGS) $(LINKER_FLAGS)
 	chmod +x ledcube-edit
 	#strip ledcube-edit
 
