@@ -79,7 +79,7 @@ gint main(gint argc, gchar *argv[]) {
     }
   }
 
-  xml = glade_xml_new("src/main_gui.glade", NULL, NULL);
+  xml = glade_xml_new("main_gui.glade", NULL, NULL);
 
   window = glade_xml_get_widget(xml, "main_window");
   gtk_container_set_reallocate_redraws(GTK_CONTAINER(window), TRUE);
@@ -108,7 +108,6 @@ gint main(gint argc, gchar *argv[]) {
   }
   //g_thread_join(connectThread);
 
-  g_print("asdf");
   gtk_widget_show(window);
   gtk_main();
 
