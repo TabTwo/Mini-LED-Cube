@@ -139,7 +139,10 @@ void demo()
 int main(int argc, char **argv)
 {
 
-    lc_init();
+    if (lc_init() != SUCCESSFULLY_CONNECTED)
+    {
+        return -1;
+    }
 
     demo();
 

@@ -21,11 +21,11 @@
 #include "../firmware/globals.h"
 
 // External functions to control the ledcube.
-extern void lc_setFrame(unsigned long);
-extern void lc_setMode(int);
-extern int  lc_saveFrame(unsigned long, int, int);
-extern void lc_init(void);
-extern void lc_close(void);
+extern int lc_setFrame(unsigned long);
+extern int lc_setMode(int);
+extern int lc_saveFrame(unsigned long, int, int);
+extern int lc_init(void);
+extern int lc_close(void);
 
 int main(int argc, char **argv)
 {
@@ -96,7 +96,12 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    lc_init();
+    if (lc_init() != SUCCESSFULLY_CONNECTED)
+    {
+        arg_freetable(argtable,sizeof(argtable)/sizeof(argtable[0]));
+        lc_close();
+        return -2;
+    }
 
     if (param_stop->count > 0)
     {
