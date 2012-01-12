@@ -32,16 +32,16 @@ int main(int argc, char **argv)
 
     // parameter structures
     struct arg_lit  *param_stop   = arg_lit0("p", "stop", "stop animation");
-    struct arg_lit  *param_single = arg_lit0("i", "single", "single animation");
+    struct arg_lit  *param_single = arg_lit0("s", "single", "single animation");
     struct arg_lit  *param_loop   = arg_lit0("l", "loop", "loop animation");
-    struct arg_int  *param_frame  = arg_int0("m", "frame", "<n>", "frame data");
-    struct arg_int  *param_pos    = arg_int0("o", "pos", "<n>", "frame pos in eeprom");
-    struct arg_int  *param_delay  = arg_int0("y", "delay", "<n>", "frame delay in eeprom");
-    struct arg_lit  *param_save   = arg_lit0("s", "save", "save one frame to the EEPROM");
+    struct arg_int  *param_frame  = arg_int0("f", "frame", "<n>", "frame data");
+    struct arg_int  *param_pos    = arg_int0("p", "pos", "<n>", "frame pos in eeprom");
+    struct arg_int  *param_delay  = arg_int0("d", "delay", "<n>", "frame delay in eeprom");
+    struct arg_lit  *param_save   = arg_lit0("v", "save", "save one frame to the EEPROM (position, delay and frame required)");
     //struct arg_lit  *param_tty    = arg_lit0("t", "terminal", "terminal mode");
     //struct arg_lit  *param_daemon = arg_lit0("d", "daemon", "daemon mode");
     struct arg_lit  *param_help   = arg_lit0("h", "help", "show help");
-    struct arg_file *param_file   = arg_filen("f", "ihex-file","<file>", 0, 1, "iHex input file to write to the EEPROM");
+    struct arg_file *param_file   = arg_filen("i", "ihex-file","<file>", 0, 1, "iHex input file to write to the EEPROM");
     struct arg_end  *param_end    = arg_end(20);
 
     // default parameter
@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 
     if (nerrors == 0 && param_help->count > 0)
     {
-        printf("Usage: ./clcc <OPTIONS>\n");
+        printf("usage: ./clcc <OPTIONS>\n");
         arg_print_glossary(stdout, argtable, "\t%-25s %s\n");
         arg_freetable(argtable,sizeof(argtable)/sizeof(argtable[0]));
         return 0;
@@ -90,7 +90,7 @@ int main(int argc, char **argv)
        )
     {
         arg_print_errors(stdout,param_end,"clcc");
-        printf("\nUsage: ./clcc <OPTIONS>\n");
+        printf("\nusage: ./clcc <OPTIONS>\n");
         arg_print_syntaxv(stdout,argtable,"\n");
         arg_freetable(argtable,sizeof(argtable)/sizeof(argtable[0]));
         return -1;
