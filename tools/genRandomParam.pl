@@ -13,7 +13,7 @@ my $odelay = 0;
 my $olayer = 0;
 my $oled = 0;
 
-print "./param2HexFrame.pl ";
+print "./frame2cube.pl ";
 for (my $i = 0; $i < 32; $i++)
 {
     print "\"";
