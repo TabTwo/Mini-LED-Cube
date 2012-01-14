@@ -1,5 +1,9 @@
 #!/usr/bin/perl -w
 #
+# author: Kai Lauterbach (klaute at gmail dot com)
+# date: 01/2012
+# license: GPL v3
+#
 # usage: 
 #
 #   ./param2HexFrame.pl "frame 1 data" "frame 2 data" ... "frame N data"
