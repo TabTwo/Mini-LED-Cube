@@ -11,6 +11,7 @@ void setScene();
 
 // Hardware Cube
 void displayCurrentFrame();
+void uploadAnimation();
 
 #endif
 

@@ -12,10 +12,12 @@
 
 extern void lc_setMode(int);
 extern void lc_setFrame(unsigned long);
+extern int lc_saveFrame(unsigned long frame, int delay, int index);
 
 void drawLEDs(gint mode) {
   gint x, y, z;
   gint ledIndex = 0;
+  gint iLED = 0;
 
   if (ledOrientation == TOP_ORIENTATION) {
     glRotatef(90, 2, 0, 0);
@@ -28,8 +30,9 @@ void drawLEDs(gint mode) {
         if (mode == PICKING_MODE) {
           glColor3ub(0, 0, ledIndex*8);
         } else {
-          glMaterialfv(GL_FRONT, GL_AMBIENT, (currentFrame[ledIndex-1] == 1 ? ledOnMaterial : ledOffMaterial));
-          glMaterialfv(GL_FRONT, GL_DIFFUSE, (currentFrame[ledIndex-1] == 1 ? ledOnMaterial : ledOffMaterial));
+          iLED = animation[currentFrame][ledIndex-1];
+          glMaterialfv(GL_FRONT, GL_AMBIENT, (iLED == 1 ? ledOnMaterial : ledOffMaterial));
+          glMaterialfv(GL_FRONT, GL_DIFFUSE, (iLED == 1 ? ledOnMaterial : ledOffMaterial));
         }
 
         glPushMatrix();
@@ -115,9 +118,30 @@ void displayCurrentFrame() {
   int i;
   unsigned long frame = 0;
   for (i=0; i<27; ++i) {
-    if (currentFrame[i] == 1) frame |= (1 << i);
+    if (animation[currentFrame][i] == 1) frame |= (1 << i);
   }
   lc_setMode(MODE_ANIMATION_STOP);
   lc_setFrame(frame);
+}
+
+void uploadAnimation() {
+  int i, j;
+  unsigned long frame = 0;
+  int delay = 0; // TODO: Implement the delay
+  int skip = 1; // Skip
+
+  // Maximum delay
+  for (i=0; i<5; ++i) delay |= (1 << i);
+
+  lc_setMode(MODE_ANIMATION_STOP);
+  for (i=0; i<32; ++i) {
+    frame = 0;
+    for (j=0; j<27; ++j) {
+      if (animation[i][j] == 1) frame |= (1 << j);
+    }
+
+    lc_saveFrame(frame, (i<animationLength ? delay : skip), i);
+  }
+  lc_setMode(MODE_ANIMATION_LOOP);
 }
 

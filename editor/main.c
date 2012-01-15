@@ -35,7 +35,9 @@ GtkWidget *window, *drawingArea;
 GladeXML *xml;
 
 // LED data
-gint currentFrame[27] = {0};
+gint animation[32][28] = {{0}};
+gint currentFrame = 0;
+gint animationLength = 1;
 
 // Hardware
 gboolean isCubeConnected = FALSE;
@@ -84,8 +86,6 @@ gint main(gint argc, gchar *argv[]) {
   glLightfv(GL_LIGHT0, GL_AMBIENT, backgroundColor);
 
   glMatrixMode(GL_MODELVIEW);
-  currentFrame[13] = 1; // Initial sequence
-  moveCameraPosition(21);
 
   // Configure the OpenGL widget
   glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_DOUBLE);
@@ -104,6 +104,14 @@ gint main(gint argc, gchar *argv[]) {
   gtk_container_set_reallocate_redraws(GTK_CONTAINER(window), TRUE);
   drawingArea = glade_xml_get_widget(xml, "drawing_area");
   gtk_widget_set_gl_capability(drawingArea, glConfig, NULL, TRUE, GDK_GL_RGBA_TYPE);
+
+  // Configure the first frame
+  animation[currentFrame][13] = 1;
+  animation[currentFrame][27] = 1; // delay to "normal"
+  g_print("frame: %d\n", currentFrame);
+  gtk_combo_box_set_active(GTK_COMBO_BOX(glade_xml_get_widget(xml, "dropdown_delay")), 1);
+  moveCameraPosition(21);
+
 
   glade_xml_signal_autoconnect(xml);
 

@@ -33,7 +33,7 @@ void mouse(gint x, gint y) {
   glReadPixels(x, viewport[3]-y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, (void*)pixel);
   position = ((gint)pixel[2]/8)-1; // Selected LED
 
-  currentFrame[position] = currentFrame[position] == 0 ? 1 : 0;
+  animation[currentFrame][position] = animation[currentFrame][position] == 0 ? 1 : 0;
   displayCurrentFrame();
 }
 

@@ -27,7 +27,7 @@ void on_change_led() {
     unsigned long frame = 0;
     gint i = 0;
     for (i=0; i<27; ++i) {
-      frame |= (currentFrame[i] << i);
+      frame |= (animation[currentFrame][i] << i);
     }
 
     // Send it to the cube
@@ -40,7 +40,34 @@ void on_change_mode(int newMode) {
   lc_setMode(newMode);
 }
 
+gchar* on_frame_control_format_value(GtkScale *scale, gdouble value) {
+  return g_strdup_printf("%d/%d", (int)value, animationLength);
+}
 
+void on_frame_control_value_changed(GtkRange *frameControl) {
+  currentFrame = (int)(gtk_range_get_value(frameControl)-1);
+  g_print("frame: %d\n", currentFrame);
+  gtk_widget_queue_draw_area(drawingArea, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+  displayCurrentFrame();
+}
+
+void on_button_add_clicked(GtkButton *button) {
+  if (animationLength >= 32) return;
+  
+  GtkRange *frameControl = GTK_RANGE(glade_xml_get_widget(xml, "frame_control"));
+
+  animationLength++;
+  currentFrame = animationLength-1;
+  gtk_range_set_range(frameControl, 1.0, (double)animationLength+1.0);
+  gtk_range_set_value(frameControl, animationLength);
+
+  gtk_widget_queue_draw_area(drawingArea, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+  displayCurrentFrame();
+}
+
+void on_button_upload_clicked(GtkButton *button) {
+  uploadAnimation();
+}
 
 void on_main_window_delete_event(GtkObject *object, gpointer userData) {
   gtk_main_quit();
