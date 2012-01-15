@@ -18,15 +18,11 @@
                 <property name="visible">True</property>
                 <property name="toolbar_style">both-horiz</property>
                 <child>
-                  <widget class="GtkToolItem" id="combobox_frame">
+                  <widget class="GtkToolButton" id="button_load">
                     <property name="visible">True</property>
-                    <property name="border_width">7</property>
-                    <child>
-                      <widget class="GtkLabel" id="connection_label">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">LED Cube is not connected</property>
-                      </widget>
-                    </child>
+                    <property name="label" translatable="yes">toolbutton3</property>
+                    <property name="use_underline">True</property>
+                    <property name="stock_id">gtk-open</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -34,7 +30,19 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkSeparatorToolItem" id="saparator">
+                  <widget class="GtkToolButton" id="button_save">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">toolbutton3</property>
+                    <property name="use_underline">True</property>
+                    <property name="stock_id">gtk-save</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkSeparatorToolItem" id="saparator2">
                     <property name="visible">True</property>
                   </widget>
                   <packing>
@@ -60,6 +68,43 @@
                     <property name="label" translatable="yes">toolbutton3</property>
                     <property name="use_underline">True</property>
                     <property name="stock_id">gtk-delete</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkSeparatorToolItem" id="saparator1">
+                    <property name="visible">True</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkToolButton" id="button_upload">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">toolbutton3</property>
+                    <property name="use_underline">True</property>
+                    <property name="stock_id">gtk-execute</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkToolItem" id="combobox_frame">
+                    <property name="visible">True</property>
+                    <property name="border_width">7</property>
+                    <child>
+                      <widget class="GtkLabel" id="connection_label">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">LED-Cube status line</property>
+                      </widget>
+                    </child>
                   </widget>
                   <packing>
                     <property name="expand">False</property>

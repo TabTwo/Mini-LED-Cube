@@ -3,14 +3,13 @@
 #include <gtk/gtk.h>
 #include <gtk/gtkgl.h>
 #include <GL/glut.h>
+#include <glade/glade.h>
 
 #include "config.h"
 #include "input.h"
 #include "display.h"
 
-#include "../firmware/globals.h"   /* custom request numbers */
-
-extern void lc_init(void);
+#include "../firmware/globals.h"
 
 void moveCameraPosition(gfloat direction) {
   eyePos += direction;
@@ -34,8 +33,7 @@ void mouse(gint x, gint y) {
   glReadPixels(x, viewport[3]-y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, (void*)pixel);
   position = ((gint)pixel[2]/8)-1; // Selected LED
 
-  printf("%d\n", position);
   currentFrame[position] = currentFrame[position] == 0 ? 1 : 0;
-  printf("%d\n", currentFrame[position]);
+  displayCurrentFrame();
 }
 

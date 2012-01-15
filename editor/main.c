@@ -32,22 +32,40 @@ GLUquadricObj *quadric;
 GdkGLConfig *glConfig;
 GdkGLContext *glContext;
 GtkWidget *window, *drawingArea;
+GladeXML *xml;
 
 // LED data
 gint currentFrame[27] = {0};
 
+// Hardware
+gboolean isCubeConnected = FALSE;
 
-void* connectToLEDCube(void) {
-  int ret = NULL;
-  while (ret == NULL || ret != SUCCESSFULLY_CONNECTED) {
+
+void connectToLEDCube(void) {
+  char message[255];
+  int ret = 0;
+  int attempts = 0;
+  GtkLabel *statusLine = GTK_LABEL(glade_xml_get_widget(xml, "connection_label"));
+
+  // We wait till the User connects the cube
+  while (ret == 0 || ret != SUCCESSFULLY_CONNECTED) {
+    attempts++;
+    sprintf(message, "Try to detect the LED-Cube ... %d", attempts);
+    gtk_label_set_text(statusLine, message);
     ret = lc_init();
-    g_print("connecting ...");
-    sleep(3);
+    if (ret == SUCCESSFULLY_CONNECTED) {
+      displayCurrentFrame();
+      break;
+    }
+    sleep(2);
   }
+  isCubeConnected = TRUE;
+  gtk_label_set_text(statusLine, "LED-Cube successfully connected!");
+
+  //TODO: Start the watchdog
 }
 
 gint main(gint argc, gchar *argv[]) {
-  GladeXML *xml;
   GThread *connectThread;
 
   gtk_init(&argc, &argv);
@@ -66,7 +84,8 @@ gint main(gint argc, gchar *argv[]) {
   glLightfv(GL_LIGHT0, GL_AMBIENT, backgroundColor);
 
   glMatrixMode(GL_MODELVIEW);
-  moveCameraPosition(0);
+  currentFrame[13] = 1; // Initial sequence
+  moveCameraPosition(21);
 
   // Configure the OpenGL widget
   glConfig = gdk_gl_config_new_by_mode(GDK_GL_MODE_RGB | GDK_GL_MODE_DEPTH | GDK_GL_MODE_DOUBLE);
@@ -89,24 +108,21 @@ gint main(gint argc, gchar *argv[]) {
   glade_xml_signal_autoconnect(xml);
 
   if (g_thread_supported()) {
-    g_print("1");
     g_thread_init(NULL);
-    g_print("2");
     gdk_threads_init();
-    g_print("3");
   } else {
     g_error("Threads not supported, we die.");
     exit(1);
   }
 
+  // Start the polling thread to try to connect to the LED-Cube.
   GError *error;
-
   g_thread_init(NULL);
-  if (connectThread = g_thread_create((GThreadFunc)connectToLEDCube, NULL, TRUE, &error) == NULL) {
+  connectThread = g_thread_create((GThreadFunc)connectToLEDCube, NULL, TRUE, &error);
+  if (connectThread == NULL) {
     g_error("Can't create the thread, we stop here.");
     exit(1);
   }
-  //g_thread_join(connectThread);
 
   gtk_widget_show(window);
   gtk_main();

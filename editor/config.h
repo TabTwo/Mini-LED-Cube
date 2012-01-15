@@ -38,12 +38,16 @@ extern GLUquadricObj *quadric;
 extern GdkGLConfig *glConfig;
 extern GdkGLWindow *glWindow;
 extern GdkGLContext *glContext;
+extern GladeXML *xml;
 
 // Dimensions, positions
 extern gfloat light0Pos[];
 
 // LED data
 extern gint currentFrame[27];
+
+// Connection
+extern gboolean isCubeConnected;
 
 #endif
 

@@ -3,10 +3,15 @@
 #include <gdk/gdkgl.h>
 #include <gtk/gtkgl.h>
 #include <GL/glut.h>
+#include <glade/glade.h>
 
 #include "config.h"
 #include "display.h"
 
+#include "../firmware/globals.h"
+
+extern void lc_setMode(int);
+extern void lc_setFrame(unsigned long);
 
 void drawLEDs(gint mode) {
   gint x, y, z;
@@ -16,9 +21,9 @@ void drawLEDs(gint mode) {
     glRotatef(90, 2, 0, 0);
   }
 
-  for (z=-10; z<=10; z+=10) // Ebene
-    for (y=-10; y<=10; y+=10) // Zeile
-      for (x=-10; x<=10; x+=10) { // Spalte
+  for (z=10; z>=-10; z-=10) // Ebene
+    for (y=10; y>=-10; y-=10) // Zeile
+      for (x=10; x>=-10; x-=10) { // Spalte
         ledIndex++;
         if (mode == PICKING_MODE) {
           glColor3ub(0, 0, ledIndex*8);
@@ -45,8 +50,8 @@ void drawLEDs(gint mode) {
 
 void drawWires() {
   gint x, y;
-  for (y=-10; y<=10; y+=10)
-    for (x=-10; x<=10; x+=10) {
+  for (y=10; y>=-10; y-=10)
+    for (x=10; x>=-10; x-=10) {
       glMaterialfv(GL_FRONT, GL_AMBIENT, ((x == 0 || y == 0) ? innerWireMaterial : wireMaterial));
 
       // Front
@@ -103,5 +108,16 @@ void display(gboolean onlyForPicking) {
     drawLEDs(RENDER_MODE);
     drawWires();
   }
+}
+
+
+void displayCurrentFrame() {
+  int i;
+  unsigned long frame = 0;
+  for (i=0; i<27; ++i) {
+    if (currentFrame[i] == 1) frame |= (1 << i);
+  }
+  lc_setMode(MODE_ANIMATION_STOP);
+  lc_setFrame(frame);
 }
 
