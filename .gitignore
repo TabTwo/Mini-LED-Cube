@@ -1,5 +1,6 @@
 doc/doxygen
 TAGS
+tags
 firmware/.dep
 firmware/usbdrv/.dep
 *.lst
