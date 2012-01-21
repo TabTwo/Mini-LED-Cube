@@ -21,6 +21,9 @@ int lc_setFrame(unsigned long frame)
     if (_lc_handle == NULL)
         return NOT_CONNECTED_ERROR;
 
+    if (frame < 0 || frame > 0xffffffff)
+        return PARAMETER_FRAME_OUT_OF_RANGE;
+
     int low  =  frame & 0xffff;
     int high = (frame & 0xffff0000) >> 16;
 
@@ -39,6 +42,9 @@ int lc_setMode(int mode)
     if (_lc_handle == NULL)
         return NOT_CONNECTED_ERROR;
 
+    if (mode < MODE_ANIMATION_STOP || mode > MODE_ANIMATION_LOOP)
+        return PARAMETER_MODE_OUT_OF_RANGE;
+
     return usb_control_msg(_lc_handle, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, CUSTOM_RQ_SET_MODE, mode, 0, _lc_buffer, 0, 300);
 }
 
@@ -52,6 +58,15 @@ int lc_saveFrame(unsigned long frame, int delay, int index)
 {
     if (_lc_handle == NULL)
         return NOT_CONNECTED_ERROR;
+
+    if (frame < 0 || frame > 0xffffffff)
+        return PARAMETER_FRAME_OUT_OF_RANGE;
+
+    if (delay < 0 || delay > 31)
+        return PARAMETER_DELAY_OUT_OF_RANGE;
+
+    if (index < 0 || index > 31)
+        return PARAMETER_INDEX_OUT_OF_RANGE;
 
     frame = frame + (delay << 27);
 
