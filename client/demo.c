@@ -34,7 +34,8 @@ void eeprom1()
     // lc_set animation stop
     lc_setMode(MODE_ANIMATION_STOP);
 
-    unsigned long buf = 0;
+
+    int buf = 0;
     int tmp = 0;
     int tmp2 = 26;
     for (tmp = 0; tmp < 32; tmp++)
@@ -47,8 +48,10 @@ void eeprom1()
             buf = (1 << tmp2);
         }
 
+        printf("delay: %d pos: %d frame: 0x%08x\n", tmp, tmp, buf);
         // save to position tmp
-        lc_saveFrame(buf, tmp, buf);
+        lc_saveFrame(buf, tmp, tmp);
+        usleep(2500);
 
     }
     //
@@ -125,9 +128,9 @@ void demo()
     sleep(1);
 
     // save animation to eeprom and animate for 60 seconds
-    //eeprom1();
+    eeprom1();
 
-    //sleep(10);
+    sleep(10);
 
     // animate with a sinus wave
     sinus1(25);
