@@ -90,7 +90,7 @@ int main(int argc, char **argv)
        )
     {
         arg_print_errors(stdout,param_end,"clcc");
-        printf("\nusage: ./clcc <OPTIONS>\n");
+        printf("usage: ./clcc <OPTIONS>\n");
         arg_print_syntaxv(stdout,argtable,"\n");
         arg_freetable(argtable,sizeof(argtable)/sizeof(argtable[0]));
         return -1;
