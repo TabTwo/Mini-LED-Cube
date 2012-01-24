@@ -3,7 +3,6 @@ Ubuntu 11.10 packages
 firmware:
 ---------
 
-avr-gcc-4.3.4-avrfreaks-30-apr-2010-u10.04.i386          0.1                                                   Ubuntu 10.04 i386 avr-gcc toolchain  based on the below script from AvrFreaks.
 avr-libc                                                 1:1.7.1-2                                             Standard C library for Atmel AVR development
 avrdude                                                  5.10-3                                                software for programming Atmel AVR microcontrollers
 binutils-avr                                             2.20.1-2                                              Binary utilities supporting Atmel's AVR targets
@@ -27,6 +26,5 @@ doxygen documentation:
 ----------------------
 
 doxygen                                                  1.7.4-3                                               Documentation system for C, C++, Java, Python and other languages
-doxygen-latex                                            1.7.4-3                                               Documentation system for C, C++, Java, Python and other languages
 graphviz                                                 2.26.3-5ubuntu4                                       rich set of graph drawing tools
 
