@@ -23,7 +23,24 @@ for (my $i = 0; $i < 32; $i++)
         $r = int(rand(6));
     }
     $odelay = $r;
-    print $r. ";";
+    print $odelay;
+
+    led();
+    led();
+
+    $r = int(rand(10));
+    led() if ($r % 2);
+
+    print "\" ";
+
+}
+
+exit 0;
+
+sub led
+{
+    my $r = 0;
+    print ";";
     $r = 0;
     while ($r < 1 || $r > 3 || $olayer == $r)
     {
@@ -39,6 +56,5 @@ for (my $i = 0; $i < 32; $i++)
     }
     $oled = $r;
     print $r;
-    print "\" ";
 }
 
